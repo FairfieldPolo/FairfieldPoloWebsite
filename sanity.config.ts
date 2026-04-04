@@ -1,7 +1,6 @@
 import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
 import { visionTool } from '@sanity/vision'
-import { media } from 'sanity-plugin-media'
 import {
   eventSchema,
   sponsorSchema,
@@ -9,9 +8,8 @@ import {
   educationArticleSchema,
   gallerySchema,
   siteSettingsSchema,
-} from './schemas'
+} from './sanity/schemas'
 
-// Singleton types only ever have one document
 const SINGLETON_TYPES = new Set(['siteSettings'])
 
 export default defineConfig({
@@ -39,7 +37,6 @@ export default defineConfig({
         S.list()
           .title('Content')
           .items([
-            // Singleton — Site settings
             S.listItem()
               .title('Site settings')
               .id('siteSettings')
@@ -48,20 +45,11 @@ export default defineConfig({
                   .schemaType('siteSettings')
                   .documentId('siteSettings')
               ),
-
             S.divider(),
-
-            // Events
             S.documentTypeListItem('event').title('Events'),
-
             S.divider(),
-
-            // Announcements
             S.documentTypeListItem('announcement').title('Announcements'),
-
             S.divider(),
-
-            // Education
             S.listItem()
               .title('Education')
               .child(
@@ -71,21 +59,15 @@ export default defineConfig({
                     S.documentTypeListItem('educationArticle').title('Articles'),
                   ])
               ),
-
             S.divider(),
-
-            // Media
             S.documentTypeListItem('gallery').title('Photo gallery'),
             S.documentTypeListItem('sponsor').title('Sponsors'),
           ]),
     }),
-
     visionTool(),
-    media(),
   ],
 
   document: {
-    // Prevent deleting the singleton
     actions: (prev, { schemaType }) =>
       SINGLETON_TYPES.has(schemaType)
         ? prev.filter(({ action }) => action !== 'delete' && action !== 'unpublish')

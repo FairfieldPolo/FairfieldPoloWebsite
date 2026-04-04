@@ -16,7 +16,7 @@ const CATEGORY_META: Record<ArticleCategory, { label: string; icon: string; desc
   rules:      { label: 'Rules of the game', icon: '⊞', desc: 'How the game is played, scored, and officiated' },
   equipment:  { label: 'Equipment guide',   icon: '⊡', desc: 'Mallets, balls, saddles, and what players wear' },
   history:    { label: 'History of polo',   icon: '◈', desc: 'From ancient origins to the modern sport' },
-  glossary:   { label: 'Polo glossary',     icon: '≡',  desc: 'Every term you'll hear at a match, explained' },
+  glossary:   { label: 'Polo glossary',     icon: '≡',  desc: "Every term you'll hear at a match, explained" },
   howtowatch: { label: 'How to watch',      icon: '◎', desc: 'Tips for getting the most out of your first match' },
 }
 

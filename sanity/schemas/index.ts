@@ -1,5 +1,7 @@
 import { defineType, defineField } from 'sanity'
 
+export { eventSchema } from './event'
+
 // ─── Sponsor ──────────────────────────────────────────────────
 export const sponsorSchema = defineType({
   name:  'sponsor',

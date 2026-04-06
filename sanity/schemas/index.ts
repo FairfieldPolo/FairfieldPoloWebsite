@@ -183,7 +183,7 @@ export const siteSettingsSchema = defineType({
     defineField({ name: 'phone',       title: 'Phone number',  type: 'string' }),
     defineField({ name: 'email',       title: 'Contact email', type: 'string', initialValue: 'wichitapoloclub@gmail.com' }),
     defineField({ name: 'googleMapsUrl', title: 'Google Maps URL', type: 'url' }),
-    defineField({ name: 'instagramHandle', title: 'Instagram handle (no @)', type: 'string' }),
+    defineField({ name: 'instagramHandle', title: 'Instagram handle (no @)', type: 'string', initialValue: 'fairfieldpoloclub' }),
     defineField({ name: 'facebookUrl',    title: 'Facebook URL', type: 'url' }),
     defineField({ name: 'youtubeUrl',     title: 'YouTube channel URL', type: 'url' }),
     defineField({ name: 'foundedYear',    title: 'Year founded', type: 'number', initialValue: 1931 }),

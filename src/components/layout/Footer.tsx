@@ -1,5 +1,7 @@
 import Link from 'next/link'
 
+const INSTAGRAM_HANDLE = process.env.NEXT_PUBLIC_INSTAGRAM_HANDLE ?? 'fairfieldpoloclub'
+
 const FOOTER_LINKS = {
   'Visit Us': [
     { label: 'Events & Schedule', href: '/events' },
@@ -22,7 +24,7 @@ const FOOTER_LINKS = {
   'Connect': [
     { label: 'Online Store',      href: '/store' },
     { label: 'Mailing List',      href: '/contact#newsletter' },
-    { label: 'Instagram',         href: 'https://instagram.com', external: true },
+    { label: 'Instagram',         href: `https://instagram.com/${INSTAGRAM_HANDLE}`, external: true },
     { label: 'YouTube',           href: 'https://youtube.com',   external: true },
   ],
 }

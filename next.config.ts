@@ -19,6 +19,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       { protocol: 'https', hostname: 'cdn.sanity.io' },
       { protocol: 'https', hostname: 'img1.wsimg.com' },
+      { protocol: 'https', hostname: 'cdn.shopify.com' },
     ],
   },
 }

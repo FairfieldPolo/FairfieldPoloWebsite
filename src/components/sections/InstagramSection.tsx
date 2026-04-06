@@ -6,7 +6,7 @@ import Link from 'next/link'
 // Replace BEHOLD_WIDGET_ID with your actual widget ID from behold.so
 
 const BEHOLD_WIDGET_ID = process.env.NEXT_PUBLIC_BEHOLD_WIDGET_ID ?? ''
-const INSTAGRAM_HANDLE = process.env.NEXT_PUBLIC_INSTAGRAM_HANDLE ?? 'fairfieldpolo'
+const INSTAGRAM_HANDLE = process.env.NEXT_PUBLIC_INSTAGRAM_HANDLE ?? 'fairfieldpoloclub'
 
 export function InstagramSection() {
   return (

@@ -19,7 +19,8 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       { protocol: 'https', hostname: 'cdn.sanity.io' },
       { protocol: 'https', hostname: 'img1.wsimg.com' },
-      { protocol: 'https', hostname: 'cdn.shopify.com' },
+      // Medusa default file backend (local dev). Add your production file host when deploying Medusa.
+      { protocol: 'http', hostname: 'localhost', port: '9000', pathname: '/**' },
     ],
   },
 }

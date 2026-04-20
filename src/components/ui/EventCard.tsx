@@ -45,6 +45,9 @@ export function EventCard({ event, variant = 'default' }: EventCardProps) {
             {formatEventTime(event.date)}
             {event.admissionFee && ` · ${event.admissionFee}`}
           </div>
+          {event.venue?.label ? (
+            <div className="font-body text-xs text-polo-green/70 mt-0.5 truncate">{event.venue.label}</div>
+          ) : null}
         </div>
         {/* Type badge */}
         <span className={`badge flex-shrink-0 text-[10px] ${typeColor}`}>
@@ -152,6 +155,9 @@ export function EventCard({ event, variant = 'default' }: EventCardProps) {
             <span className="ml-auto font-medium text-polo-green">{event.admissionFee}</span>
           )}
         </div>
+        {event.venue?.label ? (
+          <p className="font-body text-xs text-polo-green/80 mb-1">{event.venue.label}</p>
+        ) : null}
         {event.shortDescription && (
           <p className="font-body text-sm text-gray-600 line-clamp-2 flex-1">
             {event.shortDescription}

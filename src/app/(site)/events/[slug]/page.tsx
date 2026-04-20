@@ -10,6 +10,7 @@ import {
   formatEventDate, formatEventTime,
   EVENT_TYPE_LABELS, EVENT_TYPE_COLORS,
 } from '@/lib/utils'
+import { eventWhereDisplay } from '@/lib/site/event-location'
 
 export const revalidate = 60
 
@@ -37,6 +38,7 @@ export default async function EventPage({ params }: Props) {
 
   const typeLabel = EVENT_TYPE_LABELS[event.eventType]
   const typeColor = EVENT_TYPE_COLORS[event.eventType]
+  const where = eventWhereDisplay(event)
 
   return (
     <div className="pt-20 bg-polo-cream min-h-screen">
@@ -97,11 +99,26 @@ export default async function EventPage({ params }: Props) {
                   <path d="M9 1C6.24 1 4 3.24 4 6c0 4.25 5 11 5 11s5-6.75 5-11c0-2.76-2.24-5-5-5z" stroke="currentColor" strokeWidth="1.2"/>
                   <circle cx="9" cy="6" r="2" stroke="currentColor" strokeWidth="1.2"/>
                 </svg>
-                <div>
+                <div className="min-w-0">
                   <div className="font-body font-medium text-polo-charcoal text-sm">
-                    {event.location ?? 'Fairfield Polo Club'}
+                    {where.title}
                   </div>
-                  <div className="font-body text-xs text-gray-500">9420 S Broadway Ave, Haysville, KS</div>
+                  {where.lines.map((line, i) => (
+                    <div key={`${i}-${line}`} className="font-body text-xs text-gray-500">
+                      {line}
+                    </div>
+                  ))}
+                  {where.notes ? (
+                    <div className="font-body text-xs text-gray-500 mt-1">{where.notes}</div>
+                  ) : null}
+                  <a
+                    href={where.mapsHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex font-body text-xs text-polo-green hover:text-polo-green-light transition-colors mt-1.5"
+                  >
+                    Open in Google Maps →
+                  </a>
                 </div>
               </div>
 

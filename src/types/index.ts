@@ -16,6 +16,15 @@ export interface Slug {
 // ─── Event ────────────────────────────────────────────────────
 export type EventType = 'match' | 'charity' | 'tournament' | 'private' | 'practice'
 
+/** Reusable venue — `event.venue` reference in Sanity. */
+export interface Venue {
+  _id: string
+  label: string
+  addressLine1?: string
+  addressLine2?: string
+  googleMapsUrl?: string
+}
+
 export interface PoloEvent {
   _id: string
   title: string
@@ -26,7 +35,10 @@ export interface PoloEvent {
   description?: PortableTextBlock[]
   shortDescription?: string
   image?: SanityImage
+  /** Optional notes shown with `venue` (e.g. “Field B”). */
   location?: string
+  /** Where this event happens (pick from Locations in Studio). */
+  venue?: Venue | null
   admissionFee?: string   // e.g. "Free" | "$10 per car"
   ticketUrl?: string
   isPublic: boolean
@@ -81,13 +93,24 @@ export interface GalleryImage {
 }
 
 // ─── Site settings (singleton) ─────────────────────────────────
+export interface ClubLocation {
+  _key?: string
+  label?: string
+  addressLine1?: string
+  addressLine2?: string
+  googleMapsUrl?: string
+}
+
 export interface SiteSettings {
   siteName: string
   tagline: string
   description: string
   logo?: SanityImage
   heroImage?: SanityImage
-  address: string
+  /** Legacy single-line address; used when `locations` is empty. */
+  address?: string
+  /** First entry is the primary venue (Contact map, footer). */
+  locations?: ClubLocation[]
   phone?: string
   email: string
   googleMapsUrl?: string

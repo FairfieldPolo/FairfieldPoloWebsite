@@ -2,13 +2,26 @@ import type { Metadata } from 'next'
 import { PageHero } from '@/components/ui/PageHero'
 import { ContactForm } from '@/components/sections/ContactForm'
 import { NewsletterSection } from '@/components/sections/NewsletterSection'
+import { sanityFetch } from '@/lib/sanity'
+import { SITE_SETTINGS_QUERY } from '@/lib/queries'
+import type { SiteSettings } from '@/types'
+import {
+  googleMapsEmbedSrc,
+  openInGoogleMapsHref,
+  resolvePrimaryLocation,
+} from '@/lib/site/location'
 
 export const metadata: Metadata = {
   title: 'Contact & Directions',
   description: 'Get in touch with Fairfield Polo Club or get directions to 9420 South Broadway Ave, Haysville, Kansas.',
 }
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const settings = await sanityFetch<SiteSettings | null>(SITE_SETTINGS_QUERY)
+  const primary = resolvePrimaryLocation(settings)
+  const mapEmbedSrc = googleMapsEmbedSrc(primary.mapsQuery)
+  const mapLinkHref = openInGoogleMapsHref(primary, settings)
+
   return (
     <>
       <PageHero
@@ -41,7 +54,7 @@ export default function ContactPage() {
                 <div className="rounded-sm overflow-hidden border border-polo-cream-dark h-56 md:h-72 bg-polo-green/10">
                   <iframe
                     title="Fairfield Polo Club map"
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3148.8!2d-97.346!3d37.604!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDM2JzE0LjQiTiA5N8KwMjAnNDYuMCJX!5e0!3m2!1sen!2sus!4v1234567890"
+                    src={mapEmbedSrc}
                     width="100%"
                     height="100%"
                     style={{ border: 0 }}
@@ -58,13 +71,15 @@ export default function ContactPage() {
                     </svg>
                     <div>
                       <p className="font-body text-sm font-medium text-polo-charcoal">
-                        9420 South Broadway Avenue
+                        {primary.line1}
                       </p>
-                      <p className="font-body text-sm text-gray-500">Haysville, Kansas 67060</p>
+                      {primary.line2 ? (
+                        <p className="font-body text-sm text-gray-500">{primary.line2}</p>
+                      ) : null}
                     </div>
                   </div>
                   <a
-                    href="https://maps.google.com/?q=9420+South+Broadway+Avenue+Haysville+Kansas"
+                    href={mapLinkHref}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 font-body text-sm text-polo-green hover:text-polo-green-light transition-colors mt-1"

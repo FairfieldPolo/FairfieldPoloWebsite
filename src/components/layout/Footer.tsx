@@ -1,4 +1,8 @@
 import Link from 'next/link'
+import { sanityFetch } from '@/lib/sanity'
+import { SITE_SETTINGS_QUERY } from '@/lib/queries'
+import type { SiteSettings } from '@/types'
+import { resolvePrimaryLocation } from '@/lib/site/location'
 
 const INSTAGRAM_HANDLE = process.env.NEXT_PUBLIC_INSTAGRAM_HANDLE ?? 'fairfieldpoloclub'
 
@@ -29,8 +33,10 @@ const FOOTER_LINKS = {
   ],
 }
 
-export function Footer() {
+export async function Footer() {
   const year = new Date().getFullYear()
+  const settings = await sanityFetch<SiteSettings | null>(SITE_SETTINGS_QUERY)
+  const primary = resolvePrimaryLocation(settings)
 
   return (
     <footer className="bg-polo-charcoal text-polo-cream/80">
@@ -50,8 +56,13 @@ export function Footer() {
               One of the oldest USPA clubs in the country. Open to the public every Sunday at 1&nbsp;pm.
             </p>
             <address className="font-body text-sm text-polo-cream/60 not-italic leading-relaxed">
-              9420 South Broadway Ave<br />
-              Haysville, Kansas 67060
+              {primary.line1}
+              {primary.line2 ? (
+                <>
+                  <br />
+                  {primary.line2}
+                </>
+              ) : null}
             </address>
             <a
               href="mailto:wichitapoloclub@gmail.com"

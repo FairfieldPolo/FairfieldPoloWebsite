@@ -3,6 +3,7 @@ import { structureTool } from 'sanity/structure'
 import { visionTool } from '@sanity/vision'
 import {
   eventSchema,
+  venueSchema,
   sponsorSchema,
   announcementSchema,
   educationArticleSchema,
@@ -22,6 +23,7 @@ export default defineConfig({
 
   schema: {
     types: [
+      venueSchema,
       eventSchema,
       sponsorSchema,
       announcementSchema,
@@ -46,6 +48,7 @@ export default defineConfig({
                   .documentId('siteSettings')
               ),
             S.divider(),
+            S.documentTypeListItem('venue').title('Locations'),
             S.documentTypeListItem('event').title('Events'),
             S.divider(),
             S.documentTypeListItem('announcement').title('Announcements'),

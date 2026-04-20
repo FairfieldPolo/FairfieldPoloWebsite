@@ -82,9 +82,17 @@ export const eventSchema = defineType({
       of:    [{ type: 'block' }],
     }),
     defineField({
-      name:  'location',
-      title: 'Location (if different from club)',
-      type:  'string',
+      name:        'venue',
+      title:       'Where',
+      type:        'reference',
+      to:          [{ type: 'venue' }],
+      description: 'Pick where this happens. Create venues under **Locations** in the sidebar if needed.',
+    }),
+    defineField({
+      name:        'location',
+      title:       'Location notes (optional)',
+      type:        'string',
+      description: 'Extra directions only — e.g. “Field B, park by the barn.” Shown with the selected location.',
     }),
     defineField({
       name:        'admissionFee',
@@ -106,17 +114,19 @@ export const eventSchema = defineType({
   ],
   preview: {
     select: {
-      title:    'title',
-      date:     'date',
-      type:     'eventType',
-      featured: 'isFeatured',
-      media:    'image',
+      title:      'title',
+      date:       'date',
+      type:       'eventType',
+      featured:   'isFeatured',
+      media:      'image',
+      venueLabel: 'venue.label',
     },
-    prepare({ title, date, type, featured, media }) {
+    prepare({ title, date, type, featured, media, venueLabel }) {
       const d = date ? new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : ''
+      const place = venueLabel ? ` · ${venueLabel}` : ''
       return {
         title:    `${featured ? '★ ' : ''}${title}`,
-        subtitle: `${d} · ${type}`,
+        subtitle: `${d} · ${type}${place}`,
         media,
       }
     },

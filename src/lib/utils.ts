@@ -1,5 +1,6 @@
 import { format, formatDistanceToNow, isPast, isToday } from 'date-fns'
 import type { EventType, SponsorTier } from '@/types'
+import { DEFAULT_CLUB_MAPS_QUERY } from '@/lib/site/location'
 
 // ─── Date helpers ──────────────────────────────────────────────
 export function formatEventDate(dateStr: string): string {
@@ -80,7 +81,7 @@ export function generateIcalEvent(event: {
     `DTEND:${fmt(end)}`,
     `SUMMARY:${event.title}`,
     event.description ? `DESCRIPTION:${event.description.replace(/\n/g, '\\n')}` : '',
-    `LOCATION:${event.location ?? '9420 S Broadway Ave, Haysville, KS 67060'}`,
+    `LOCATION:${event.location ?? DEFAULT_CLUB_MAPS_QUERY}`,
     'END:VEVENT',
     'END:VCALENDAR',
   ].filter(Boolean).join('\r\n')

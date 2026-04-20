@@ -3,6 +3,7 @@ import { sanityFetch } from '@/lib/sanity'
 import { EVENT_BY_SLUG_QUERY } from '@/lib/queries'
 import type { PoloEvent } from '@/types'
 import { generateIcalEvent } from '@/lib/utils'
+import { eventLocationForCalendar } from '@/lib/site/event-location'
 
 export async function GET(req: NextRequest) {
   const slug = req.nextUrl.searchParams.get('slug')
@@ -22,7 +23,7 @@ export async function GET(req: NextRequest) {
     date:        event.date,
     endDate:     event.endDate,
     description: event.shortDescription,
-    location:    event.location ?? '9420 South Broadway Avenue, Haysville, Kansas 67060',
+    location:    eventLocationForCalendar(event),
   })
 
   return new NextResponse(ical, {

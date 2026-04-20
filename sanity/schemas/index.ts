@@ -1,6 +1,7 @@
 import { defineType, defineField } from 'sanity'
 
 export { eventSchema } from './event'
+export { venueSchema } from './venue'
 
 // ─── Sponsor ──────────────────────────────────────────────────
 export const sponsorSchema = defineType({
@@ -179,10 +180,51 @@ export const siteSettingsSchema = defineType({
     defineField({ name: 'description', title: 'Meta description', type: 'text', rows: 3 }),
     defineField({ name: 'logo',        title: 'Club logo', type: 'image', options: { hotspot: true } }),
     defineField({ name: 'heroImage',   title: 'Homepage hero image', type: 'image', options: { hotspot: true } }),
-    defineField({ name: 'address',     title: 'Address', type: 'string', initialValue: '9420 South Broadway Avenue, Haysville, Kansas 67060' }),
+    defineField({
+      name:        'address',
+      title:       'Address (legacy)',
+      type:        'string',
+      initialValue: '9420 South Broadway Avenue, Haysville, Kansas 67060',
+      description: 'Used for maps/display if **Locations** is empty. Prefer adding a row under Locations (e.g. Main).',
+    }),
+    defineField({
+      name:        'locations',
+      title:       'Locations',
+      type:        'array',
+      description: 'First location is used for the Contact page map, embed, and footer. Add more rows for extra venues (label e.g. Main, Clubhouse).',
+      of: [
+        {
+          type:  'object',
+          name:  'clubLocation',
+          title: 'Location',
+          fields: [
+            defineField({ name: 'label', title: 'Label', type: 'string', description: 'e.g. Main, Clubhouse', initialValue: 'Main' }),
+            defineField({ name: 'addressLine1', title: 'Street address', type: 'string' }),
+            defineField({ name: 'addressLine2', title: 'City, state, ZIP', type: 'string' }),
+            defineField({
+              name:        'googleMapsUrl',
+              title:       'Optional: “Open in Maps” link',
+              type:        'url',
+              description: 'Overrides the auto-generated Google Maps search link for this location.',
+            }),
+          ],
+          preview: {
+            select: { title: 'label', line1: 'addressLine1' },
+            prepare({ title, line1 }: { title?: string; line1?: string }) {
+              return { title: title || 'Location', subtitle: line1 }
+            },
+          },
+        },
+      ],
+    }),
     defineField({ name: 'phone',       title: 'Phone number',  type: 'string' }),
     defineField({ name: 'email',       title: 'Contact email', type: 'string', initialValue: 'wichitapoloclub@gmail.com' }),
-    defineField({ name: 'googleMapsUrl', title: 'Google Maps URL', type: 'url' }),
+    defineField({
+      name:        'googleMapsUrl',
+      title:       'Google Maps URL (site-wide)',
+      type:        'url',
+      description: 'Optional. Overrides “Open in Maps” for all locations if a location does not set its own.',
+    }),
     defineField({ name: 'instagramHandle', title: 'Instagram handle (no @)', type: 'string', initialValue: 'fairfieldpoloclub' }),
     defineField({ name: 'facebookUrl',    title: 'Facebook URL', type: 'url' }),
     defineField({ name: 'youtubeUrl',     title: 'YouTube channel URL', type: 'url' }),

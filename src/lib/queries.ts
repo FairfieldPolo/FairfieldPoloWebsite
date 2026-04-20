@@ -6,17 +6,21 @@ export const SITE_SETTINGS_QUERY = `
     siteName, tagline, description,
     logo, heroImage,
     address, phone, email, googleMapsUrl,
+    locations[] { _key, label, addressLine1, addressLine2, googleMapsUrl },
     instagramHandle, facebookUrl, youtubeUrl,
     foundedYear, uspaMember
   }
 `
+
+const VENUE_PROJECTION = `venue->{ _id, label, addressLine1, addressLine2, googleMapsUrl }`
 
 export const FEATURED_EVENTS_QUERY = `
   *[_type == "event" && isFeatured == true && date >= now()]
   | order(date asc)[0...4] {
     _id, title, slug, date, endDate,
     eventType, shortDescription, image,
-    admissionFee, isPublic, isFeatured
+    admissionFee, isPublic, isFeatured,
+    ${VENUE_PROJECTION}
   }
 `
 
@@ -25,7 +29,8 @@ export const ALL_UPCOMING_EVENTS_QUERY = `
   | order(date asc) {
     _id, title, slug, date, endDate,
     eventType, shortDescription, image,
-    location, admissionFee, isPublic
+    location, admissionFee, isPublic,
+    ${VENUE_PROJECTION}
   }
 `
 
@@ -33,7 +38,8 @@ export const PAST_EVENTS_QUERY = `
   *[_type == "event" && date < now()]
   | order(date desc)[0...20] {
     _id, title, slug, date,
-    eventType, shortDescription, image
+    eventType, shortDescription, image,
+    ${VENUE_PROJECTION}
   }
 `
 
@@ -43,6 +49,7 @@ export const EVENT_BY_SLUG_QUERY = `
     eventType, description, shortDescription, image,
     location, admissionFee, ticketUrl,
     isPublic, isFeatured,
+    ${VENUE_PROJECTION},
     sponsors[]-> { _id, name, logo, website, tier }
   }
 `

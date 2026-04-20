@@ -73,9 +73,9 @@ export default async function SchedulePage() {
                         <div className="font-display text-base font-semibold text-polo-green group-hover:text-polo-green-mid transition-colors truncate">
                           {event.title}
                         </div>
-                        {event.shortDescription && (
+                        {(event.shortDescription || event.venue?.label) && (
                           <div className="font-body text-xs text-gray-500 mt-0.5 truncate">
-                            {event.shortDescription}
+                            {[event.venue?.label, event.shortDescription].filter(Boolean).join(' · ')}
                           </div>
                         )}
                       </div>

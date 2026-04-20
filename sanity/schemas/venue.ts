@@ -22,6 +22,18 @@ export const venueSchema = defineType({
       type:        'url',
       description: '“Open in Maps” for this venue; otherwise a search link is built from the address.',
     }),
+    defineField({
+      name:        'latitude',
+      title:       'Latitude',
+      type:        'number',
+      description: 'Decimal degrees (e.g. 37.604). Set together with longitude for an exact map pin.',
+    }),
+    defineField({
+      name:        'longitude',
+      title:       'Longitude',
+      type:        'number',
+      description: 'Decimal degrees (e.g. -97.346). Set together with latitude.',
+    }),
   ],
   preview: {
     select: { title: 'label', subtitle: 'addressLine1' },

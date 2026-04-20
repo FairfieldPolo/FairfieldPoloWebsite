@@ -6,7 +6,7 @@ import { sanityFetch } from '@/lib/sanity'
 import { SITE_SETTINGS_QUERY } from '@/lib/queries'
 import type { SiteSettings } from '@/types'
 import {
-  googleMapsEmbedSrc,
+  googleMapsEmbedForResolved,
   openInGoogleMapsHref,
   resolvePrimaryLocation,
 } from '@/lib/site/location'
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 export default async function ContactPage() {
   const settings = await sanityFetch<SiteSettings | null>(SITE_SETTINGS_QUERY)
   const primary = resolvePrimaryLocation(settings)
-  const mapEmbedSrc = googleMapsEmbedSrc(primary.mapsQuery)
+  const mapEmbedSrc = googleMapsEmbedForResolved(primary)
   const mapLinkHref = openInGoogleMapsHref(primary, settings)
 
   return (

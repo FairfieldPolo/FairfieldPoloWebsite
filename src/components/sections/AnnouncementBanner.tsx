@@ -25,7 +25,10 @@ export function AnnouncementBanner({ announcement }: { announcement: Announcemen
   const icon  = TYPE_ICONS[announcement.type]  ?? TYPE_ICONS.general
 
   return (
-    <div className={`relative z-40 w-full ${style}`} role="alert">
+    <div
+      className={`relative z-40 w-full mt-16 md:mt-20 ${style}`}
+      role="alert"
+    >
       <div className="container-polo">
         <div className="flex items-center justify-between gap-4 py-3">
           <div className="flex items-center gap-3 min-w-0">

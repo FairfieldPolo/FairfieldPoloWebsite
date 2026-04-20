@@ -38,6 +38,7 @@ export const EVENT_TYPE_LABELS: Record<EventType, string> = {
   tournament: 'Tournament',
   private:    'Private Event',
   practice:   'Practice',
+  lesson:     'Lesson',
 }
 
 export const EVENT_TYPE_COLORS: Record<EventType, string> = {
@@ -46,6 +47,7 @@ export const EVENT_TYPE_COLORS: Record<EventType, string> = {
   tournament: 'bg-polo-brown text-polo-cream',
   private:    'bg-gray-500 text-white',
   practice:   'bg-polo-green-mid text-polo-cream',
+  lesson:     'bg-sky-800 text-polo-cream',
 }
 
 // ─── Sponsor helpers ───────────────────────────────────────────

@@ -17,6 +17,18 @@ export type ResolvedClubLocation = {
   line2?: string
   /** Single string passed to Google (search API, embed q=, etc.) */
   mapsQuery: string
+  /** When both set, maps embed / links prefer this pin. */
+  latitude?: number
+  longitude?: number
+}
+
+export function hasValidCoords(lat?: number, lng?: number): boolean {
+  return typeof lat === 'number' && typeof lng === 'number' && Number.isFinite(lat) && Number.isFinite(lng)
+}
+
+/** Maps search / `q=` string for a coordinate pin. */
+export function coordsMapsQuery(lat: number, lng: number): string {
+  return `${lat},${lng}`
 }
 
 /**
@@ -41,6 +53,21 @@ export function googleMapsEmbedSrc(query: string): string {
   return `https://www.google.com/maps?q=${q}&output=embed`
 }
 
+/** Embed for Contact / site settings: prefers lat/lng pin when both are set. */
+export function googleMapsEmbedForResolved(loc: ResolvedClubLocation): string {
+  if (hasValidCoords(loc.latitude, loc.longitude)) {
+    const key = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
+    const lat = loc.latitude as number
+    const lng = loc.longitude as number
+    if (key) {
+      return `https://www.google.com/maps/embed/v1/view?key=${encodeURIComponent(key)}&center=${lat},${lng}&zoom=16&maptype=roadmap`
+    }
+    const q = encodeURIComponent(coordsMapsQuery(lat, lng))
+    return `https://www.google.com/maps?q=${q}&output=embed`
+  }
+  return googleMapsEmbedSrc(loc.mapsQuery)
+}
+
 /**
  * Resolves the primary club location for maps + display.
  * Order: first entry in Sanity `locations` → legacy `address` string → code default.
@@ -51,6 +78,8 @@ export function resolvePrimaryLocation(
   const first = settings?.locations?.[0]
   const line1 = first?.addressLine1?.trim()
   const line2 = first?.addressLine2?.trim()
+  const lat = first?.latitude
+  const lng = first?.longitude
 
   if (line1 && line2) {
     return {
@@ -58,6 +87,22 @@ export function resolvePrimaryLocation(
       line1,
       line2,
       mapsQuery: `${line1}, ${line2}`,
+      latitude:  hasValidCoords(lat, lng) ? lat : undefined,
+      longitude: hasValidCoords(lat, lng) ? lng : undefined,
+    }
+  }
+
+  if (hasValidCoords(lat, lng)) {
+    const la = lat as number
+    const ln = lng as number
+    const label = first?.label?.trim() || 'Main'
+    return {
+      label,
+      line1: line1 || label,
+      line2: line2 || coordsMapsQuery(la, ln),
+      mapsQuery: coordsMapsQuery(la, ln),
+      latitude:  la,
+      longitude: ln,
     }
   }
 
@@ -86,5 +131,9 @@ export function openInGoogleMapsHref(
   const first = settings?.locations?.[0]
   const fromLocation = first?.googleMapsUrl?.trim()
   const siteWide = settings?.googleMapsUrl?.trim()
-  return fromLocation || siteWide || googleMapsSearchUrl(resolved.mapsQuery)
+  if (fromLocation || siteWide) return (fromLocation || siteWide) as string
+  if (hasValidCoords(resolved.latitude, resolved.longitude)) {
+    return googleMapsSearchUrl(coordsMapsQuery(resolved.latitude!, resolved.longitude!))
+  }
+  return googleMapsSearchUrl(resolved.mapsQuery)
 }

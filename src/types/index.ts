@@ -14,7 +14,7 @@ export interface Slug {
 }
 
 // ─── Event ────────────────────────────────────────────────────
-export type EventType = 'match' | 'charity' | 'tournament' | 'private' | 'practice'
+export type EventType = 'match' | 'charity' | 'tournament' | 'private' | 'practice' | 'lesson'
 
 /** Reusable venue — `event.venue` reference in Sanity. */
 export interface Venue {
@@ -23,6 +23,9 @@ export interface Venue {
   addressLine1?: string
   addressLine2?: string
   googleMapsUrl?: string
+  /** Decimal degrees — optional exact pin when both set. */
+  latitude?: number
+  longitude?: number
 }
 
 export interface PoloEvent {
@@ -99,6 +102,8 @@ export interface ClubLocation {
   addressLine1?: string
   addressLine2?: string
   googleMapsUrl?: string
+  latitude?: number
+  longitude?: number
 }
 
 export interface SiteSettings {

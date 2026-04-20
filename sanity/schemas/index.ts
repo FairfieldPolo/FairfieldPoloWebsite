@@ -207,6 +207,18 @@ export const siteSettingsSchema = defineType({
               type:        'url',
               description: 'Overrides the auto-generated Google Maps search link for this location.',
             }),
+            defineField({
+              name:        'latitude',
+              title:       'Latitude',
+              type:        'number',
+              description: 'Decimal degrees — use with longitude for an exact pin on the Contact map.',
+            }),
+            defineField({
+              name:        'longitude',
+              title:       'Longitude',
+              type:        'number',
+              description: 'Decimal degrees — use with latitude.',
+            }),
           ],
           preview: {
             select: { title: 'label', line1: 'addressLine1' },

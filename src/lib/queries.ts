@@ -6,13 +6,13 @@ export const SITE_SETTINGS_QUERY = `
     siteName, tagline, description,
     logo, heroImage,
     address, phone, email, googleMapsUrl,
-    locations[] { _key, label, addressLine1, addressLine2, googleMapsUrl },
+    locations[] { _key, label, addressLine1, addressLine2, googleMapsUrl, latitude, longitude },
     instagramHandle, facebookUrl, youtubeUrl,
     foundedYear, uspaMember
   }
 `
 
-const VENUE_PROJECTION = `venue->{ _id, label, addressLine1, addressLine2, googleMapsUrl }`
+const VENUE_PROJECTION = `venue->{ _id, label, addressLine1, addressLine2, googleMapsUrl, latitude, longitude }`
 
 export const FEATURED_EVENTS_QUERY = `
   *[_type == "event" && isFeatured == true && date >= now()]

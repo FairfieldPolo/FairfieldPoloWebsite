@@ -2,7 +2,9 @@ import type { PoloEvent, Venue } from '@/types'
 import {
   DEFAULT_CLUB_MAPS_QUERY,
   DEFAULT_MAIN_LOCATION,
+  coordsMapsQuery,
   googleMapsSearchUrl,
+  hasValidCoords,
 } from '@/lib/site/location'
 
 /** Single string for calendar / maps search from a venue document. */
@@ -12,6 +14,7 @@ export function venueMapsQuery(v: Venue): string {
   if (a && b) return `${a}, ${b}`
   if (a) return a
   if (b) return b
+  if (hasValidCoords(v.latitude, v.longitude)) return coordsMapsQuery(v.latitude!, v.longitude!)
   return v.label.trim()
 }
 
@@ -40,7 +43,11 @@ export function eventWhereDisplay(event: PoloEvent): EventWhereDisplay {
   if (event.venue) {
     const v = event.venue
     const lines = [v.addressLine1, v.addressLine2].filter((x): x is string => Boolean(x?.trim()))
-    const mapsHref = v.googleMapsUrl?.trim() || googleMapsSearchUrl(venueMapsQuery(v))
+    const mapsHref =
+      v.googleMapsUrl?.trim()
+      || (hasValidCoords(v.latitude, v.longitude)
+        ? googleMapsSearchUrl(coordsMapsQuery(v.latitude!, v.longitude!))
+        : googleMapsSearchUrl(venueMapsQuery(v)))
     return {
       title: v.label,
       lines,

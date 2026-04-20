@@ -41,6 +41,7 @@ export const eventSchema = defineType({
           { title: 'Charity event',       value: 'charity' },
           { title: 'Private event',       value: 'private' },
           { title: 'Practice',            value: 'practice' },
+          { title: 'Lesson',              value: 'lesson' },
         ],
         layout: 'radio',
       },

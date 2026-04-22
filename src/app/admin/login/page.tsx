@@ -1,10 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import toast from 'react-hot-toast'
 
-export default function AdminLoginPage() {
+function AdminLoginPageInner() {
   const [password, setPassword] = useState('')
   const [busy, setBusy] = useState(false)
   const router = useRouter()
@@ -52,5 +52,13 @@ export default function AdminLoginPage() {
         </button>
       </form>
     </div>
+  )
+}
+
+export default function AdminLoginPage() {
+  return (
+    <Suspense fallback={<div className="mx-auto max-w-sm rounded-xl border border-white/10 bg-polo-green/40 p-8 text-polo-cream/70">Loading login…</div>}>
+      <AdminLoginPageInner />
+    </Suspense>
   )
 }

@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
 import { sanityFetch } from '@/lib/sanity'
-import { SPONSORS_QUERY } from '@/lib/queries'
-import type { Sponsor } from '@/types'
+import { SPONSORS_QUERY, SITE_SETTINGS_QUERY } from '@/lib/queries'
+import { getPublicPoloCopy } from '@/lib/site/publicPolo'
+import type { Sponsor, SiteSettings } from '@/types'
 import { PageHero } from '@/components/ui/PageHero'
 import { SponsorsSection } from '@/components/sections/SponsorsSection'
 import { NewsletterSection } from '@/components/sections/NewsletterSection'
@@ -14,7 +15,11 @@ export const metadata: Metadata = {
 }
 
 export default async function AboutPage() {
-  const sponsors = await sanityFetch<Sponsor[]>(SPONSORS_QUERY)
+  const [sponsors, settings] = await Promise.all([
+    sanityFetch<Sponsor[]>(SPONSORS_QUERY),
+    sanityFetch<SiteSettings | null>(SITE_SETTINGS_QUERY),
+  ])
+  const polo = getPublicPoloCopy(settings)
 
   return (
     <>
@@ -89,7 +94,7 @@ export default async function AboutPage() {
                     { label: 'Founded',       value: '1931' },
                     { label: 'Location',      value: 'Haysville, Kansas (south of Wichita)' },
                     { label: 'Field address', value: '9420 S Broadway Ave, Haysville, KS 67060' },
-                    { label: 'Public games',  value: 'Every Sunday at 1:00 PM (spring/summer)' },
+                    { label: 'Public games',  value: polo.timeDetail },
                     { label: 'Admission',     value: 'Free — open to the public' },
                     { label: 'Affiliation',   value: 'United States Polo Association (USPA)' },
                     { label: 'Contact',       value: 'wichitapoloclub@gmail.com' },
@@ -122,7 +127,7 @@ export default async function AboutPage() {
               {
                 title: 'Watch polo',
                 icon: '◎',
-                body: 'Come out any Sunday at 1pm. Free admission, family friendly, bring lawn chairs or blankets. The field is wide open.',
+                body: polo.getInvolved,
                 cta: 'See the schedule',
                 href: '/events',
               },
@@ -138,7 +143,7 @@ export default async function AboutPage() {
                 icon: '✦',
                 body: 'Full, student, social, and spectator memberships available. Members enjoy exclusive benefits, event access, and community.',
                 cta: 'Learn about membership',
-                href: '/contact',
+                href: '/membership',
               },
             ].map(({ title, icon, body, cta, href }) => (
               <div key={title} className="card p-6 flex flex-col">

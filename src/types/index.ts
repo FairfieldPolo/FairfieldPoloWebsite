@@ -14,7 +14,14 @@ export interface Slug {
 }
 
 // ─── Event ────────────────────────────────────────────────────
-export type EventType = 'match' | 'charity' | 'tournament' | 'private' | 'practice' | 'lesson'
+export type EventType =
+  | 'match'
+  | 'charity'
+  | 'tournament'
+  | 'private'
+  | 'social'
+  | 'practice'
+  | 'lesson'
 
 /** Reusable venue — `event.venue` reference in Sanity. */
 export interface Venue {
@@ -124,6 +131,25 @@ export interface SiteSettings {
   youtubeUrl?: string
   foundedYear: number
   uspaMember: boolean
+
+  /** When weekly polo is open to the public (one sentence, sitewide). */
+  publicPoloWhen?: string
+  /** Home hero subhead under the main headline. */
+  publicPoloNarrative?: string
+  publicGates?: string
+  publicGatesStat?: string
+  publicPoloTimeCallout?: string
+  publicPoloTimeContact?: string
+  publicPoloTimeDetail?: string
+  publicPoloStatTime?: string
+  publicPoloSeo?: string
+  publicPoloNoEvents?: string
+  publicPoloEmptyEvents?: string
+  publicPoloEmptySchedule?: string
+  publicPoloGetInvolved?: string
+  publicPoloScheduleCard?: string
+  /** Rain/mud + check updates (home, events list, event detail). */
+  publicPoloWeatherNote?: string
 }
 
 // ─── Nav link ─────────────────────────────────────────────────

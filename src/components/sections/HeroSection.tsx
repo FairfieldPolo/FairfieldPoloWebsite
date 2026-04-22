@@ -1,6 +1,14 @@
 import Link from 'next/link'
 
-export function HeroSection() {
+import type { PublicPoloCopy } from '@/lib/site/publicPolo'
+
+type Props = {
+  polo: PublicPoloCopy
+  /** One line for map / directions, e.g. “9420 S Broadway Ave, Haysville, Kansas” */
+  addressLine: string
+}
+
+export function HeroSection({ polo, addressLine }: Props) {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
 
@@ -55,8 +63,7 @@ export function HeroSection() {
 
         {/* Sub-headline */}
         <p className="font-body text-lg md:text-xl text-polo-cream/75 max-w-2xl mx-auto mb-3 animate-fade-up leading-relaxed">
-          One of the oldest USPA clubs in America. Watch world-class polo
-          every Sunday at 1&nbsp;pm — open to the public, free to attend.
+          {polo.narrative}
         </p>
 
         {/* Sunday callout */}
@@ -67,7 +74,7 @@ export function HeroSection() {
             <path d="M1 6h14" stroke="currentColor" strokeWidth="1.2"/>
           </svg>
           <span className="font-body text-sm font-medium text-polo-gold">
-            Sundays at 1:00 PM — 9420 S Broadway Ave, Haysville
+            {polo.timeContact} — {addressLine}
           </span>
         </div>
 

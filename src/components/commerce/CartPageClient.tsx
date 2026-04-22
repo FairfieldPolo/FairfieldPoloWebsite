@@ -7,6 +7,7 @@ import type { HttpTypes } from '@medusajs/types'
 
 import { resolveMedusaAssetUrl } from '@/lib/commerce/assets'
 import { formatCartMoney, getCartCurrencyCode } from '@/lib/commerce/medusa-money'
+import { shopUrl } from '@/lib/site/shop-url'
 
 import { CartTotals } from './CartTotals'
 
@@ -82,7 +83,7 @@ export function CartPageClient() {
     return (
       <div className="text-center py-16 max-w-lg mx-auto">
         <p className="font-body text-gray-600 mb-6">Your cart is empty.</p>
-        <Link href="/store" className="btn-gold inline-flex">
+        <Link href={shopUrl('/store')} className="btn-gold inline-flex">
           Browse products
         </Link>
       </div>
@@ -164,7 +165,7 @@ export function CartPageClient() {
       <div>
         <CartTotals cart={cart} />
         <Link
-          href="/store/checkout"
+          href={shopUrl('/store/checkout')}
           className="btn-gold w-full justify-center mt-6"
         >
           Checkout

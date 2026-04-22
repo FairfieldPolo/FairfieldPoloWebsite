@@ -8,7 +8,11 @@ export const SITE_SETTINGS_QUERY = `
     address, phone, email, googleMapsUrl,
     locations[] { _key, label, addressLine1, addressLine2, googleMapsUrl, latitude, longitude },
     instagramHandle, facebookUrl, youtubeUrl,
-    foundedYear, uspaMember
+    foundedYear, uspaMember,
+    publicPoloWhen, publicPoloNarrative, publicGates, publicGatesStat,
+    publicPoloTimeCallout, publicPoloTimeContact, publicPoloTimeDetail, publicPoloStatTime, publicPoloSeo,
+    publicPoloNoEvents, publicPoloEmptyEvents, publicPoloEmptySchedule,
+    publicPoloGetInvolved, publicPoloScheduleCard, publicPoloWeatherNote
   }
 `
 

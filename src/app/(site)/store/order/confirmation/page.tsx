@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 import { PageHero } from '@/components/ui/PageHero'
+import { shopUrl } from '@/lib/site/shop-url'
 
 export const metadata: Metadata = {
   title: 'Order confirmation',
@@ -32,7 +33,7 @@ export default async function OrderConfirmationPage({ searchParams }: Props) {
             You will receive a confirmation email when processing is complete. Contact the club
             if you have questions about your purchase.
           </p>
-          <Link href="/store" className="btn-outline inline-flex">
+          <Link href={shopUrl('/store')} className="btn-outline inline-flex">
             Back to store
           </Link>
         </div>

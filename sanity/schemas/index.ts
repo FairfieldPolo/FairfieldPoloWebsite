@@ -2,6 +2,7 @@ import { defineType, defineField } from 'sanity'
 
 export { eventSchema } from './event'
 export { venueSchema } from './venue'
+export { poloMatchSchema } from './poloMatch'
 
 // ─── Sponsor ──────────────────────────────────────────────────
 export const sponsorSchema = defineType({

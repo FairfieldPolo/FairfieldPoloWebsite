@@ -10,6 +10,7 @@ export interface SanityImage {
 
 // ─── Slug ──────────────────────────────────────────────────────
 export interface Slug {
+  _type?: 'slug'
   current: string
 }
 

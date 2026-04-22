@@ -9,6 +9,7 @@ import {
   educationArticleSchema,
   gallerySchema,
   siteSettingsSchema,
+  poloMatchSchema,
 } from './sanity/schemas'
 
 const SINGLETON_TYPES = new Set(['siteSettings'])
@@ -25,6 +26,7 @@ export default defineConfig({
     types: [
       venueSchema,
       eventSchema,
+      poloMatchSchema,
       sponsorSchema,
       announcementSchema,
       educationArticleSchema,
@@ -50,6 +52,7 @@ export default defineConfig({
             S.divider(),
             S.documentTypeListItem('venue').title('Locations'),
             S.documentTypeListItem('event').title('Events'),
+            S.documentTypeListItem('poloMatch').title('Polo matches (scoreboard)'),
             S.divider(),
             S.documentTypeListItem('announcement').title('Announcements'),
             S.divider(),

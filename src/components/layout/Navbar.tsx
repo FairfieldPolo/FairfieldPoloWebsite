@@ -14,6 +14,7 @@ function buildNavLinks(): NavLink[] {
   return [
     { label: 'Events',     href: '/events' },
     { label: 'Schedule',  href: '/schedule' },
+    { label: 'Matches',   href: '/matches/live' },
     { label: 'Shop',      href: shopUrl('/store') },
     { label: 'Learn',     href: '/learn' },
     { label: 'About',     href: '/about' },

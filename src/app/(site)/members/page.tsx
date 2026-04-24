@@ -31,8 +31,8 @@ export default function MembersPage() {
             <Link href="/contact" className="btn-gold inline-flex">
               Contact the club
             </Link>
-            <Link href="/about" className="btn-outline inline-flex">
-              About the club
+            <Link href="/club/history" className="btn-outline inline-flex">
+              Club history
             </Link>
           </div>
         </div>

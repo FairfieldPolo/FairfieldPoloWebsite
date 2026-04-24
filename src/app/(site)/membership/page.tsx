@@ -287,10 +287,10 @@ export default function MembershipPage() {
               Contact us to join
             </Link>
             <Link
-              href="/about"
+              href="/club/history"
               className="font-body text-sm text-polo-gold hover:text-polo-gold-light transition-colors"
             >
-              About the club →
+              Club history →
             </Link>
           </div>
         </div>

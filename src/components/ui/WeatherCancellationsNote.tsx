@@ -9,7 +9,7 @@ type Props = {
 }
 
 /**
- * Renders site copy about rain/mud. Words “this site” and “here” link to /events; “Facebook”
+ * Renders site copy about rain/mud. Words “this site” and “here” link to /schedule; “Facebook”
  * links to `facebookUrl` when set (configure in Site settings).
  */
 export function WeatherCancellationsNote({ text, facebookUrl, className = '' }: Props) {
@@ -44,7 +44,7 @@ export function WeatherCancellationsNote({ text, facebookUrl, className = '' }: 
             return (
               <Link
                 key={`${i}-${part}`}
-                href="/events"
+                href="/schedule"
                 className="font-medium text-polo-green underline decoration-polo-green/30 underline-offset-2 hover:decoration-polo-green"
               >
                 {part}

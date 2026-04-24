@@ -83,7 +83,7 @@ export function MatchSetupForm({ matchId, initial }: { matchId: string; initial:
         startingGoals: Number(awayStart) || 0,
         players: awayPlayers,
       },
-      officials: officials.map((o) => ({ name: o.name, role: o.role })),
+      officials: officials.map((o) => ({ _key: o._key, name: o.name, role: o.role })),
     }
   }, [
     title,

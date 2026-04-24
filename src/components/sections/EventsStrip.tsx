@@ -33,10 +33,10 @@ export function EventsStrip({ events, polo, fullAddress, facebookUrl }: Props) {
             </p>
           </div>
           <Link
-            href="/events"
+            href="/schedule/calendar"
             className="hidden sm:inline-flex btn-outline text-sm py-2 px-5"
           >
-            Full schedule
+            Full calendar
           </Link>
         </div>
 
@@ -71,7 +71,7 @@ export function EventsStrip({ events, polo, fullAddress, facebookUrl }: Props) {
 
         {/* Mobile full schedule link */}
         <div className="mt-8 text-center sm:hidden">
-          <Link href="/events" className="btn-outline w-full">
+          <Link href="/schedule/calendar" className="btn-outline w-full">
             See full schedule
           </Link>
         </div>

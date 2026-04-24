@@ -5,22 +5,19 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 import { membersUrl } from '@/lib/site/members-url'
-import { shopUrl } from '@/lib/site/shop-url'
 
 type NavLink = { label: string; href: string }
 
 /** Built inside the client component so `shopUrl` / `membersUrl` read env at render, not at module init. */
 function buildNavLinks(): NavLink[] {
   return [
-    { label: 'Events',     href: '/events' },
-    { label: 'Schedule',  href: '/schedule' },
-    { label: 'Matches',   href: '/matches/live' },
-    { label: 'Shop',      href: shopUrl('/store') },
-    { label: 'Learn',     href: '/learn' },
-    { label: 'About',     href: '/about' },
-    { label: 'Membership', href: '/membership' },
-    { label: 'Members',   href: membersUrl() },
-    { label: 'Contact',   href: '/contact' },
+    { label: 'Schedule', href: '/schedule' },
+    { label: 'Club', href: '/club' },
+    { label: 'Venue', href: '/venue' },
+    { label: 'Learn', href: '/learn' },
+    { label: 'Shop', href: '/shop' },
+    { label: 'Contact', href: '/contact' },
+    { label: 'Members', href: membersUrl() },
   ]
 }
 

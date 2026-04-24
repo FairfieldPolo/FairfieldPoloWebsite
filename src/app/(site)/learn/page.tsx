@@ -9,7 +9,7 @@ export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: 'Learn Polo',
-  description: 'Learn the rules of polo, equipment guide, polo glossary, and how to watch a match. Your complete introduction to the sport.',
+  description: 'Learn how to watch polo, what polo is, beginner essentials, and lessons at Fairfield Polo Club.',
 }
 
 const CATEGORY_META: Record<ArticleCategory, { label: string; icon: string; desc: string }> = {
@@ -81,7 +81,7 @@ export default async function LearnPage() {
                   {cat === 'howtowatch' && (
                     <p className="mb-3">
                       <Link
-                        href="/learn/how-to-watch"
+                        href="/learn/watch"
                         className="font-body text-sm font-medium text-polo-green hover:text-polo-green-light underline-offset-2 hover:underline"
                       >
                         → What to expect as a first-time fan
@@ -110,6 +110,21 @@ export default async function LearnPage() {
                 </div>
               )
             })}
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-12">
+            <Link href="/learn/what-is-polo" className="card p-5 hover:shadow-md transition-shadow">
+              <h3 className="heading-card text-polo-green mb-2">What is polo?</h3>
+              <p className="font-body text-sm text-gray-500">A clear overview of the sport, pace, and team format.</p>
+            </Link>
+            <Link href="/learn/beginner" className="card p-5 hover:shadow-md transition-shadow">
+              <h3 className="heading-card text-polo-green mb-2">Beginner guide</h3>
+              <p className="font-body text-sm text-gray-500">A simple path for first-time spectators and new players.</p>
+            </Link>
+            <Link href="/learn/lessons" className="card p-5 hover:shadow-md transition-shadow">
+              <h3 className="heading-card text-polo-green mb-2">Learn to play</h3>
+              <p className="font-body text-sm text-gray-500">Lessons and next steps for riders ready to get involved.</p>
+            </Link>
           </div>
 
           {/* Quick facts strip */}

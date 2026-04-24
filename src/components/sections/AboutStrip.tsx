@@ -13,8 +13,8 @@ export function AboutStrip({ polo }: Props) {
           <div>
             <div className="gold-rule mb-6" />
             <h2 className="heading-section text-polo-cream mb-6">
-              America's Heartland<br />
-              <em className="text-polo-gold">Polo Tradition</em>
+              Club Community,<br />
+              <em className="text-polo-gold">Events, and Learning</em>
             </h2>
             <p className="font-body text-polo-cream/80 leading-relaxed mb-4">
               Founded in 1931, Fairfield Polo Club is one of the oldest continuously operating
@@ -22,17 +22,17 @@ export function AboutStrip({ polo }: Props) {
               bringing world-class polo to Kansas for over 90 years.
             </p>
             <p className="font-body text-polo-cream/80 leading-relaxed mb-8">
-              Whether you're a seasoned player, a curious first-timer, or just looking for
-              a spectacular Sunday afternoon — you're welcome here. No dress code. No pretense.
-              Just great polo.
+              Fairfield is where Wichita-area guests watch matches, families spend Sunday afternoons,
+              and future players begin their polo journey. Explore the club, host your event,
+              or learn the game.
             </p>
 
             {/* Three values */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
               {[
-                { title: 'Open to all', body: polo.aboutOpenToAllBody },
-                { title: 'USPA member', body: 'Sanctioned tournaments and competitive play.' },
-                { title: 'Get involved', body: 'Lessons, memberships, and volunteer opportunities.' },
+                { title: 'Join the club', body: 'Memberships, visitor guidance, and community access.' },
+                { title: 'Host your event', body: 'Weddings, private parties, and corporate gatherings.' },
+                { title: 'Learn to play', body: 'Beginner education, lessons, and watch guides.' },
               ].map(({ title, body }) => (
                 <div key={title} className="border-l-2 border-polo-gold pl-4">
                   <div className="font-display text-polo-gold font-semibold mb-1">{title}</div>
@@ -42,11 +42,14 @@ export function AboutStrip({ polo }: Props) {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-3">
-              <Link href="/about" className="btn-gold">
-                Our story
+              <Link href="/club/join" className="btn-gold">
+                Join the Club
               </Link>
-              <Link href="/contact" className="btn-outline border-polo-cream/40 text-polo-cream hover:bg-polo-cream hover:text-polo-green">
-                Get in touch
+              <Link href="/venue" className="btn-outline border-polo-cream/40 text-polo-cream hover:bg-polo-cream hover:text-polo-green">
+                Host Your Event
+              </Link>
+              <Link href="/learn/lessons" className="font-body text-sm text-polo-gold hover:text-polo-gold-light transition-colors self-center">
+                Learn to play →
               </Link>
             </div>
           </div>

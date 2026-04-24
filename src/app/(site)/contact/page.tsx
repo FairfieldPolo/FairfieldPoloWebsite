@@ -104,6 +104,25 @@ export default async function ContactPage() {
                   </svg>
                   wichitapoloclub@gmail.com
                 </a>
+                <div id="sponsorships" className="pt-2 border-t border-polo-cream-dark">
+                  <p className="font-body text-xs uppercase tracking-widest text-gray-400 mb-1">Sponsorships</p>
+                  <p className="font-body text-sm text-gray-600">Ask about match-day and seasonal sponsorship opportunities.</p>
+                </div>
+                <div id="tour" className="pt-2 border-t border-polo-cream-dark">
+                  <p className="font-body text-xs uppercase tracking-widest text-gray-400 mb-1">Book a tour</p>
+                  <p className="font-body text-sm text-gray-600">Use the contact form to request a club and grounds tour.</p>
+                </div>
+                <div id="social" className="pt-2 border-t border-polo-cream-dark">
+                  <p className="font-body text-xs uppercase tracking-widest text-gray-400 mb-1">Social links</p>
+                  <a
+                    href={settings?.facebookUrl ?? 'https://facebook.com'}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-body text-sm text-polo-green hover:text-polo-green-light transition-colors"
+                  >
+                    Facebook updates →
+                  </a>
+                </div>
               </div>
 
               {/* Game day info */}

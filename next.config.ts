@@ -25,12 +25,23 @@ const nextConfig: NextConfig = {
     ],
   },
   async redirects() {
-    const out: { source: string; destination: string; permanent: true }[] = []
+    const out: { source: string; destination: string; permanent: true }[] = [
+      { source: '/events', destination: '/schedule/calendar', permanent: true },
+      { source: '/about', destination: '/club/history', permanent: true },
+      { source: '/membership', destination: '/club/membership', permanent: true },
+      { source: '/members', destination: '/club/members', permanent: true },
+      { source: '/learn/how-to-watch', destination: '/learn/watch', permanent: true },
+      { source: '/polo-lessons-wichita', destination: '/learn/lessons', permanent: true },
+      { source: '/wichita-event-venue', destination: '/venue/contact', permanent: true },
+      { source: '/wichita-events-polo', destination: '/venue/private-events', permanent: true },
+    ]
     const shop = process.env.NEXT_PUBLIC_SHOP_URL?.trim().replace(/\/$/, '')
     if (shop) {
       out.push(
-        { source: '/store', destination: `${shop}/store`, permanent: true },
-        { source: '/store/:path*', destination: `${shop}/store/:path*`, permanent: true }
+        { source: '/store', destination: '/shop', permanent: true },
+        { source: '/store/:path*', destination: '/shop/:path*', permanent: true },
+        { source: '/shop', destination: `${shop}/store`, permanent: true },
+        { source: '/shop/:path*', destination: `${shop}/store/:path*`, permanent: true }
       )
     }
     // Same base as `membersUrl()` (full app URL, not necessarily host root). Optionally includes a path.

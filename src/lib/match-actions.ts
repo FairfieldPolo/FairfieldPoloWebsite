@@ -84,7 +84,7 @@ export interface MatchSetupInput {
     startingGoals: number
     players: { _key?: string; name: string; number?: string; position?: string; handicap?: number; isAlternate?: boolean }[]
   }
-  officials: { name?: string; role?: string }[]
+  officials: { _key?: string; name?: string; role?: string }[]
 }
 
 function ensurePlayerKeys(
@@ -156,7 +156,11 @@ export function applyMatchAction(
         notes: setup.notes,
         homeTeam: ensurePlayerKeys(setup.homeTeam),
         awayTeam: ensurePlayerKeys(setup.awayTeam),
-        officials: setup.officials.map((o) => ({ _key: randomKey(), name: o.name, role: o.role })),
+        officials: setup.officials.map((o) => ({
+          _key: o._key && o._key.length > 0 ? o._key : randomKey(),
+          name: o.name,
+          role: o.role,
+        })),
         status: doc.status === 'final' ? 'final' : doc.status,
       }
       return { patch: next }

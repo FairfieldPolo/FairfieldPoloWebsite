@@ -181,8 +181,8 @@ export default async function EventPage({ params }: Props) {
         </div>
 
         <div className="mt-10 pt-6 border-t border-polo-cream-dark">
-          <Link href="/events" className="font-body text-sm text-polo-green/60 hover:text-polo-green transition-colors">
-            ← Back to all events
+          <Link href="/schedule/calendar" className="font-body text-sm text-polo-green/60 hover:text-polo-green transition-colors">
+            ← Back to schedule calendar
           </Link>
         </div>
       </div>

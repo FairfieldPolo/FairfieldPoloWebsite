@@ -4,34 +4,39 @@ import { SITE_SETTINGS_QUERY } from '@/lib/queries'
 import type { SiteSettings } from '@/types'
 import { resolvePrimaryLocation } from '@/lib/site/location'
 import { getPublicPoloCopy } from '@/lib/site/publicPolo'
-import { shopUrl } from '@/lib/site/shop-url'
 
 const INSTAGRAM_HANDLE = process.env.NEXT_PUBLIC_INSTAGRAM_HANDLE ?? 'fairfieldpoloclub'
 
 const FOOTER_LINKS = {
-  'Visit Us': [
-    { label: 'Events & Schedule', href: '/events' },
-    { label: 'Season Schedule',   href: '/schedule' },
-    { label: 'Directions',        href: '/contact#directions' },
-    { label: 'Contact Us',        href: '/contact' },
+  Schedule: [
+    { label: 'Upcoming Events', href: '/schedule' },
+    { label: 'Calendar', href: '/schedule/calendar' },
+    { label: 'Results', href: '/schedule/results' },
+    { label: 'Live Matches', href: '/matches/live' },
   ],
-  'The Club': [
-    { label: 'About',             href: '/about' },
-    { label: 'Membership',        href: '/membership' },
-    { label: 'USPA Membership',   href: '/about#uspa' },
-    { label: 'Sponsors',          href: '/about#sponsors' },
+  Club: [
+    { label: 'Club Overview', href: '/club' },
+    { label: 'Membership', href: '/club/membership' },
+    { label: 'Join the Club', href: '/club/join' },
+    { label: 'Visit & Directions', href: '/club/visit' },
   ],
-  'Learn Polo': [
-    { label: 'Rules of the Game', href: '/learn/rules' },
-    { label: 'Equipment Guide',   href: '/learn/equipment' },
-    { label: 'Polo Glossary',     href: '/learn/glossary' },
-    { label: 'How to Watch',      href: '/learn/how-to-watch' },
+  Venue: [
+    { label: 'Host an Event', href: '/venue' },
+    { label: 'Weddings', href: '/venue/weddings' },
+    { label: 'Private Events', href: '/venue/private-events' },
+    { label: 'Venue Inquiry', href: '/venue/contact' },
   ],
-  'Connect': [
-    { label: 'Online Store',        href: shopUrl('/store') },
-    { label: 'Mailing List',      href: '/contact#newsletter' },
-    { label: 'Instagram',         href: `https://instagram.com/${INSTAGRAM_HANDLE}`, external: true },
-    { label: 'YouTube',           href: 'https://youtube.com',   external: true },
+  Learn: [
+    { label: 'What Is Polo', href: '/learn/what-is-polo' },
+    { label: 'How to Watch', href: '/learn/watch' },
+    { label: 'Beginner Guide', href: '/learn/beginner' },
+    { label: 'Lessons', href: '/learn/lessons' },
+  ],
+  Contact: [
+    { label: 'Contact Us', href: '/contact' },
+    { label: 'Book a Tour', href: '/contact#tour' },
+    { label: 'Shop', href: '/shop' },
+    { label: 'Instagram', href: `https://instagram.com/${INSTAGRAM_HANDLE}`, external: true },
   ],
 }
 

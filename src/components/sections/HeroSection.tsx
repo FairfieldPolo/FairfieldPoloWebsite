@@ -80,11 +80,11 @@ export function HeroSection({ polo, addressLine }: Props) {
 
         {/* CTA buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-up">
-          <Link href="/events" className="btn-gold w-full sm:w-auto text-base px-8 py-4">
-            See Upcoming Events
+          <Link href="/schedule" className="btn-gold w-full sm:w-auto text-base px-8 py-4">
+            See Upcoming Matches
           </Link>
-          <Link href="/contact#directions" className="btn-outline border-polo-cream/40 text-polo-cream hover:bg-polo-cream hover:text-polo-green w-full sm:w-auto text-base px-8 py-4">
-            Get Directions
+          <Link href="/club/join" className="btn-outline border-polo-cream/40 text-polo-cream hover:bg-polo-cream hover:text-polo-green w-full sm:w-auto text-base px-8 py-4">
+            Join the Club
           </Link>
         </div>
 

@@ -18,7 +18,7 @@ export default function NotFound() {
           <Link href="/" className="btn-gold">
             Back to home
           </Link>
-          <Link href="/events" className="btn-outline border-polo-cream/30 text-polo-cream hover:bg-polo-cream hover:text-polo-green">
+          <Link href="/schedule" className="btn-outline border-polo-cream/30 text-polo-cream hover:bg-polo-cream hover:text-polo-green">
             See upcoming events
           </Link>
         </div>

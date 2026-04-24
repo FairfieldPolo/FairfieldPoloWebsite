@@ -15,7 +15,7 @@ export function startingGoalsForSide(m: PoloMatchDocument, side: PoloTeamSide): 
   return Math.max(0, t?.startingGoals ?? 0)
 }
 
-/** Goals from events (excludes manual score_corrected deltas — those are folded into totals via scoreDelta). */
+/** Goal deltas from events, including manual score corrections. */
 export function sumGoalDeltas(events: PoloMatchEvent[] | undefined, side: PoloTeamSide): number {
   if (!events?.length) return 0
   let n = 0
@@ -48,6 +48,9 @@ export function goalsInChukkerForSide(
     if (e.chukkerNumber !== chukker || e.teamSide !== side) continue
     if (e.eventType === 'goal_scored' || e.eventType === 'penalty_goal') {
       n += e.scoreDelta ?? 1
+    }
+    if (e.eventType === 'score_corrected' && typeof e.scoreDelta === 'number') {
+      n += e.scoreDelta
     }
   }
   return n

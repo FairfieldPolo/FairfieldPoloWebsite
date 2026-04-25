@@ -43,11 +43,23 @@ const SECTIONS: Record<string, SectionConfig> = {
     body: 'Use this page as a property guide for tailgating, pavilion access, and spectator zones on match days.',
     ctas: [{ label: 'Visitor information', href: '/club/visit' }, { label: 'Contact us', href: '/contact' }],
   },
+  tailgating: {
+    title: 'Tailgating & Pavilion',
+    description: 'Game-day tailgating and pavilion information for Fairfield Polo Club visitors.',
+    body: 'Tailgating and pavilion gathering are part of the Fairfield match-day experience. Bring chairs, plan your setup, and use this page for guest guidance as the club adds more detailed maps and rules.',
+    ctas: [{ label: 'Visitor information', href: '/club/visit' }, { label: 'See schedule', href: '/schedule' }],
+  },
   history: {
     title: 'Club History',
     description: 'Learn the long-standing history of Fairfield Polo Club.',
     body: 'Founded in 1931, Fairfield Polo Club is one of the oldest continuously operating USPA member clubs in the United States.',
     ctas: [{ label: 'Read the full story', href: '/about' }, { label: 'Membership', href: '/club/membership' }],
+  },
+  faqs: {
+    title: 'Club FAQs',
+    description: 'Common questions about visiting, joining, and attending events at Fairfield Polo Club.',
+    body: 'Find quick answers for visitors, prospective members, and first-time spectators. The club can expand this page with detailed policies, weather guidance, tailgating notes, and membership questions.',
+    ctas: [{ label: 'Contact the club', href: '/contact' }, { label: 'How to watch polo', href: '/learn/watch' }],
   },
 }
 

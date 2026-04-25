@@ -4,26 +4,94 @@ import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
-import { membersUrl } from '@/lib/site/members-url'
+type NavLink = {
+  label: string
+  href: string
+  children?: { label: string; href: string }[]
+}
 
-type NavLink = { label: string; href: string }
-
-/** Built inside the client component so `shopUrl` / `membersUrl` read env at render, not at module init. */
 function buildNavLinks(): NavLink[] {
   return [
-    { label: 'Schedule', href: '/schedule' },
-    { label: 'Club', href: '/club' },
-    { label: 'Venue', href: '/venue' },
-    { label: 'Learn', href: '/learn' },
-    { label: 'Shop', href: '/shop' },
-    { label: 'Contact', href: '/contact' },
-    { label: 'Members', href: membersUrl() },
+    {
+      label: 'Schedule',
+      href: '/schedule',
+      children: [
+        { label: 'Matches', href: '/matches/live' },
+        { label: 'Calendar', href: '/schedule/calendar' },
+        { label: 'Results', href: '/schedule/results' },
+        { label: 'Upcoming Events', href: '/schedule' },
+      ],
+    },
+    {
+      label: 'Club',
+      href: '/club',
+      children: [
+        { label: 'Membership Levels', href: '/club/membership' },
+        { label: 'Join the Club', href: '/club/join' },
+        { label: 'Member Portal', href: '/club/members' },
+        { label: 'Visitor Info', href: '/club/visit' },
+        { label: 'Directions', href: '/contact#directions' },
+        { label: 'Property Map', href: '/club/map' },
+        { label: 'Tailgating & Pavilion', href: '/club/tailgating' },
+        { label: 'Club History', href: '/club/history' },
+        { label: 'FAQs', href: '/club/faqs' },
+      ],
+    },
+    {
+      label: 'Venue',
+      href: '/venue',
+      children: [
+        { label: 'Weddings', href: '/venue/weddings' },
+        { label: 'Corporate Events', href: '/venue/corporate' },
+        { label: 'Private Parties', href: '/venue/private-events' },
+        { label: 'Pavilion Rental', href: '/venue/pavilion' },
+        { label: 'Grounds Rental', href: '/venue/grounds' },
+        { label: 'Photo Shoots', href: '/venue/photo-shoots' },
+        { label: 'Request Pricing', href: '/venue/pricing' },
+        { label: 'Gallery', href: '/venue/gallery' },
+      ],
+    },
+    {
+      label: 'Learn',
+      href: '/learn',
+      children: [
+        { label: 'How to Watch Polo', href: '/learn/watch' },
+        { label: 'What Is Polo', href: '/learn/what-is-polo' },
+        { label: 'Beginner Info', href: '/learn/beginner' },
+        { label: 'Lessons', href: '/learn/lessons' },
+        { label: 'Getting Started', href: '/learn/getting-started' },
+      ],
+    },
+    {
+      label: 'Shop',
+      href: '/shop',
+      children: [
+        { label: 'Apparel', href: '/shop/apparel' },
+        { label: 'Hats', href: '/shop/hats' },
+        { label: 'Gifts', href: '/shop/gifts' },
+      ],
+    },
+    {
+      label: 'Contact',
+      href: '/contact',
+      children: [
+        { label: 'Inquiry', href: '/contact' },
+        { label: 'Sponsorships', href: '/contact#sponsorships' },
+        { label: 'Social Media', href: '/contact#social' },
+        { label: 'Book a Tour', href: '/contact#tour' },
+      ],
+    },
   ]
 }
 
 function navItemActive(pathname: string, href: string) {
   if (href.startsWith('http://') || href.startsWith('https://')) return false
-  return pathname === href || pathname.startsWith(`${href}/`)
+  const [path] = href.split('#')
+  return pathname === path || pathname.startsWith(`${path}/`)
+}
+
+function navGroupActive(pathname: string, link: NavLink) {
+  return navItemActive(pathname, link.href) || Boolean(link.children?.some(child => navItemActive(pathname, child.href)))
 }
 
 export function Navbar() {
@@ -95,27 +163,48 @@ export function Navbar() {
           {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-1" aria-label="Main navigation">
             {navLinks.map((link) => {
-              const active = navItemActive(pathname, link.href)
+              const active = navGroupActive(pathname, link)
               return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`
-                    relative px-4 py-2 font-body text-sm font-medium
-                    transition-colors duration-200
-                    ${active
-                      ? 'text-polo-gold'
-                      : transparent
-                        ? 'text-polo-cream/90 hover:text-polo-gold'
-                        : 'text-polo-cream/80 hover:text-polo-gold'
-                    }
-                  `}
-                >
-                  {link.label}
-                  {active && (
-                    <span className="absolute bottom-0 left-4 right-4 h-0.5 bg-polo-gold rounded-full" />
-                  )}
-                </Link>
+                <div key={link.href} className="group relative">
+                  <Link
+                    href={link.href}
+                    className={`
+                      relative block px-4 py-2 font-body text-sm font-medium
+                      transition-colors duration-200
+                      ${active
+                        ? 'text-polo-gold'
+                        : transparent
+                          ? 'text-polo-cream/90 hover:text-polo-gold'
+                          : 'text-polo-cream/80 hover:text-polo-gold'
+                      }
+                    `}
+                  >
+                    {link.label}
+                    {active && (
+                      <span className="absolute bottom-0 left-4 right-4 h-0.5 bg-polo-gold rounded-full" />
+                    )}
+                  </Link>
+                  {link.children?.length ? (
+                    <div className="invisible absolute left-1/2 top-full w-64 -translate-x-1/2 pt-3 opacity-0 transition-all duration-150 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+                      <div className="rounded-sm border border-polo-gold/20 bg-polo-green shadow-xl">
+                        <div className="px-4 py-3 font-body text-[0.65rem] font-semibold uppercase tracking-widest text-polo-gold">
+                          {link.label}
+                        </div>
+                        <div className="border-t border-polo-green-mid/70 py-2">
+                          {link.children.map((child) => (
+                            <Link
+                              key={child.href}
+                              href={child.href}
+                              className="block px-4 py-2 font-body text-sm text-polo-cream/80 transition-colors hover:bg-polo-green-mid/60 hover:text-polo-gold"
+                            >
+                              {child.label}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
               )
             })}
           </nav>
@@ -150,19 +239,32 @@ export function Navbar() {
         <div className="md:hidden bg-polo-green border-t border-polo-green-mid pb-4">
           <nav className="container-polo flex flex-col pt-2" aria-label="Mobile navigation">
             {navLinks.map((link) => {
-              const active = navItemActive(pathname, link.href)
+              const active = navGroupActive(pathname, link)
               return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`
-                    py-3 px-2 font-body text-base border-b border-polo-green-mid/50
-                    transition-colors
-                    ${active ? 'text-polo-gold font-medium' : 'text-polo-cream/90'}
-                  `}
-                >
-                  {link.label}
-                </Link>
+                <div key={link.href} className="border-b border-polo-green-mid/50 py-2">
+                  <Link
+                    href={link.href}
+                    className={`
+                      block py-2 px-2 font-body text-base transition-colors
+                      ${active ? 'text-polo-gold font-medium' : 'text-polo-cream/90'}
+                    `}
+                  >
+                    {link.label}
+                  </Link>
+                  {link.children?.length ? (
+                    <div className="grid grid-cols-1 gap-1 pb-2 pl-5">
+                      {link.children.map((child) => (
+                        <Link
+                          key={child.href}
+                          href={child.href}
+                          className="px-2 py-1.5 font-body text-sm text-polo-cream/65 transition-colors hover:text-polo-gold"
+                        >
+                          {child.label}
+                        </Link>
+                      ))}
+                    </div>
+                  ) : null}
+                </div>
               )
             })}
           </nav>

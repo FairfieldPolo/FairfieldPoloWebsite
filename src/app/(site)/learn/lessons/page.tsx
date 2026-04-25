@@ -1,5 +1,2 @@
-import { redirect } from 'next/navigation'
-
-export default function LearnLessonsPage() {
-  redirect('/polo-lessons-wichita')
-}
+export { metadata } from '../../polo-lessons-wichita/page'
+export { default } from '../../polo-lessons-wichita/page'

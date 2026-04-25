@@ -14,6 +14,7 @@ import {
 } from '@/lib/site/location'
 import type { PoloEvent, Announcement, Sponsor, SiteSettings } from '@/types'
 import { HeroSection }        from '@/components/sections/HeroSection'
+import { HomeCtaBlocks }      from '@/components/sections/HomeCtaBlocks'
 import { AnnouncementBanner } from '@/components/sections/AnnouncementBanner'
 import { EventsStrip }        from '@/components/sections/EventsStrip'
 import { AboutStrip }         from '@/components/sections/AboutStrip'
@@ -56,6 +57,7 @@ export default async function HomePage() {
         <AnnouncementBanner announcement={pinnedAnnouncement} />
       )}
       <HeroSection polo={polo} addressLine={heroAddressLine} />
+      <HomeCtaBlocks />
       <EventsStrip
         events={events}
         polo={polo}

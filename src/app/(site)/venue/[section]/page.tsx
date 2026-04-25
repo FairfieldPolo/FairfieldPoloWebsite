@@ -31,6 +31,21 @@ const SECTIONS: Record<string, SectionConfig> = {
     description: 'Reserve Fairfield’s pavilion for event-day hosting and guest comfort.',
     body: 'Pavilion access supports shade, staging, and gathering space for spectators and private event groups.',
   },
+  grounds: {
+    title: 'Grounds Rental',
+    description: 'Outdoor grounds rental for Wichita-area events at Fairfield Polo Club.',
+    body: 'The club grounds offer a distinctive open-air setting for gatherings, activations, and event experiences that need space, character, and a memorable Kansas backdrop.',
+  },
+  'photo-shoots': {
+    title: 'Photo Shoots',
+    description: 'Photo shoot location inquiries at Fairfield Polo Club.',
+    body: 'Fairfield can provide a refined sporting-club and rural landscape setting for portraits, editorial shoots, brand photography, and special occasion sessions.',
+  },
+  pricing: {
+    title: 'Request Venue Pricing',
+    description: 'Request pricing and availability for Fairfield Polo Club venue rentals.',
+    body: 'Pricing depends on event type, guest count, date, setup needs, and access requirements. Send an inquiry with your details and the club will follow up with next steps.',
+  },
   gallery: {
     title: 'Venue Gallery',
     description: 'Preview Fairfield Polo Club’s event atmosphere and venue setting.',

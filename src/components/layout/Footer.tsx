@@ -9,33 +9,49 @@ const INSTAGRAM_HANDLE = process.env.NEXT_PUBLIC_INSTAGRAM_HANDLE ?? 'fairfieldp
 
 const FOOTER_LINKS = {
   Schedule: [
-    { label: 'Upcoming Events', href: '/schedule' },
+    { label: 'Matches', href: '/matches/live' },
     { label: 'Calendar', href: '/schedule/calendar' },
     { label: 'Results', href: '/schedule/results' },
-    { label: 'Live Matches', href: '/matches/live' },
+    { label: 'Upcoming Events', href: '/schedule' },
   ],
   Club: [
-    { label: 'Club Overview', href: '/club' },
-    { label: 'Membership', href: '/club/membership' },
+    { label: 'Membership Levels', href: '/club/membership' },
     { label: 'Join the Club', href: '/club/join' },
-    { label: 'Visit & Directions', href: '/club/visit' },
+    { label: 'Member Portal', href: '/club/members' },
+    { label: 'Visitor Info', href: '/club/visit' },
+    { label: 'Directions', href: '/contact#directions' },
+    { label: 'Property Map', href: '/club/map' },
+    { label: 'Tailgating & Pavilion', href: '/club/tailgating' },
+    { label: 'Club History', href: '/club/history' },
+    { label: 'FAQs', href: '/club/faqs' },
   ],
   Venue: [
-    { label: 'Host an Event', href: '/venue' },
     { label: 'Weddings', href: '/venue/weddings' },
-    { label: 'Private Events', href: '/venue/private-events' },
-    { label: 'Venue Inquiry', href: '/venue/contact' },
+    { label: 'Corporate Events', href: '/venue/corporate' },
+    { label: 'Private Parties', href: '/venue/private-events' },
+    { label: 'Pavilion Rental', href: '/venue/pavilion' },
+    { label: 'Grounds Rental', href: '/venue/grounds' },
+    { label: 'Photo Shoots', href: '/venue/photo-shoots' },
+    { label: 'Request Pricing', href: '/venue/pricing' },
+    { label: 'Gallery', href: '/venue/gallery' },
   ],
   Learn: [
+    { label: 'How to Watch Polo', href: '/learn/watch' },
     { label: 'What Is Polo', href: '/learn/what-is-polo' },
-    { label: 'How to Watch', href: '/learn/watch' },
-    { label: 'Beginner Guide', href: '/learn/beginner' },
+    { label: 'Beginner Info', href: '/learn/beginner' },
     { label: 'Lessons', href: '/learn/lessons' },
+    { label: 'Getting Started', href: '/learn/getting-started' },
+  ],
+  Shop: [
+    { label: 'Apparel', href: '/shop/apparel' },
+    { label: 'Hats', href: '/shop/hats' },
+    { label: 'Gifts', href: '/shop/gifts' },
   ],
   Contact: [
-    { label: 'Contact Us', href: '/contact' },
+    { label: 'Inquiry', href: '/contact' },
+    { label: 'Sponsorships', href: '/contact#sponsorships' },
+    { label: 'Social Media', href: '/contact#social' },
     { label: 'Book a Tour', href: '/contact#tour' },
-    { label: 'Shop', href: '/shop' },
     { label: 'Instagram', href: `https://instagram.com/${INSTAGRAM_HANDLE}`, external: true },
   ],
 }
@@ -50,7 +66,7 @@ export async function Footer() {
     <footer className="bg-polo-charcoal text-polo-cream/80">
       {/* Main footer */}
       <div className="container-polo py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 gap-10">
 
           {/* Brand column */}
           <div className="lg:col-span-1">

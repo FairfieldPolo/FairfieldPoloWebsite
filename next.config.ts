@@ -1,7 +1,6 @@
 import path from 'path'
 
 import type { NextConfig } from 'next'
-import { getExternalMembersAppBaseForRedirects } from './src/lib/site/members-url'
 
 const nextConfig: NextConfig = {
   // Embedded Studio (sanity.config → sanity / @sanity/vision) must resolve the
@@ -42,14 +41,6 @@ const nextConfig: NextConfig = {
         { source: '/store/:path*', destination: '/shop/:path*', permanent: true },
         { source: '/shop', destination: `${shop}/store`, permanent: true },
         { source: '/shop/:path*', destination: `${shop}/store/:path*`, permanent: true }
-      )
-    }
-    // Same base as `membersUrl()` (full app URL, not necessarily host root). Optionally includes a path.
-    const membersApp = getExternalMembersAppBaseForRedirects()
-    if (membersApp) {
-      out.push(
-        { source: '/members', destination: membersApp, permanent: true },
-        { source: '/members/:path*', destination: `${membersApp}/:path*`, permanent: true }
       )
     }
     return out

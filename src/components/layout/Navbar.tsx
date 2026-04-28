@@ -4,18 +4,7 @@ import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
-type NavLink = { label: string; href: string }
-
-function buildNavLinks(): NavLink[] {
-  return [
-    { label: 'Schedule', href: '/schedule' },
-    { label: 'Club', href: '/club' },
-    { label: 'Venue', href: '/venue' },
-    { label: 'Learn', href: '/learn' },
-    { label: 'Shop', href: '/shop' },
-    { label: 'Contact', href: '/contact' },
-  ]
-}
+import { PUBLIC_HEADER_NAV } from '@/lib/site/navigation'
 
 function navItemActive(pathname: string, href: string) {
   if (href.startsWith('http://') || href.startsWith('https://')) return false
@@ -28,7 +17,7 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const pathname = usePathname()
   const isHome = pathname === '/'
-  const navLinks = useMemo(() => buildNavLinks(), [])
+  const navLinks = useMemo(() => PUBLIC_HEADER_NAV, [])
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)

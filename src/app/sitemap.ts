@@ -1,9 +1,9 @@
 import type { MetadataRoute } from 'next'
 import { sanityFetch } from '@/lib/sanity'
-import { shopPageAbsoluteUrl } from '@/lib/site/shop-url'
 import type { PoloEvent, EducationArticle } from '@/types'
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://fairfieldpolo.com'
+const SHOP_URL = process.env.NEXT_PUBLIC_SHOP_URL?.trim().replace(/\/$/, '') ?? `${BASE_URL}/shop`
 
 const EVENTS_SLUGS_QUERY = `*[_type == "event"]{ "slug": slug.current, date }`
 const ARTICLES_SLUGS_QUERY = `*[_type == "educationArticle"]{ "slug": slug.current, publishedAt }`
@@ -38,12 +38,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/venue/pricing`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.75 },
     { url: `${BASE_URL}/venue/gallery`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.7 },
     { url: `${BASE_URL}/venue/contact`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.75 },
-    { url: shopPageAbsoluteUrl('/shop'),          lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.7 },
-    { url: shopPageAbsoluteUrl('/shop/apparel'),  lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.6 },
-    { url: shopPageAbsoluteUrl('/shop/hats'),     lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.6 },
-    { url: shopPageAbsoluteUrl('/shop/gifts'),    lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.6 },
-    { url: shopPageAbsoluteUrl('/store/cart'),     lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.4 },
-    { url: shopPageAbsoluteUrl('/store/checkout'), lastModified: new Date(), changeFrequency: 'monthly', priority: 0.3 },
+    { url: SHOP_URL, lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.7 },
+    { url: `${SHOP_URL}/apparel`, lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.6 },
+    { url: `${SHOP_URL}/hats`, lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.6 },
+    { url: `${SHOP_URL}/gifts`, lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.6 },
     { url: `${BASE_URL}/learn`,      lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
     { url: `${BASE_URL}/learn/rules`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.65 },
     { url: `${BASE_URL}/learn/equipment`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.65 },

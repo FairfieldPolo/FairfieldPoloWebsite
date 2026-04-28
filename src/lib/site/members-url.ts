@@ -5,9 +5,9 @@ const siteOrigin = () =>
 
 /**
  * Set to the **exact** public home URL of the members app: bare origin
- * (e.g. `https://members.fairfield.com` when the app is served at `/` on that host)
+ * (e.g. `https://members.fairfieldpolo.com` when the app is served at `/` on that host)
  * or origin + path when the app lives on a subpath
- * (e.g. `https://app.fairfield.com/members/portal`). Trailing slashes are ignored.
+ * (e.g. `https://app.fairfieldpolo.com/members/portal`). Trailing slashes are ignored.
  * Leave unset to use the in-app `/members` “coming soon” page until the members site is live.
  */
 function membersOriginFromEnv(): string {

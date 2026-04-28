@@ -4,63 +4,16 @@ import { SITE_SETTINGS_QUERY } from '@/lib/queries'
 import type { SiteSettings } from '@/types'
 import { resolvePrimaryLocation } from '@/lib/site/location'
 import { getPublicPoloCopy } from '@/lib/site/publicPolo'
+import { getFooterNavigation } from '@/lib/site/navigation'
 
 const INSTAGRAM_HANDLE = process.env.NEXT_PUBLIC_INSTAGRAM_HANDLE ?? 'fairfieldpoloclub'
-
-const FOOTER_LINKS = {
-  Schedule: [
-    { label: 'Matches', href: '/matches/live' },
-    { label: 'Calendar', href: '/schedule/calendar' },
-    { label: 'Results', href: '/schedule/results' },
-    { label: 'Upcoming Events', href: '/schedule' },
-  ],
-  Club: [
-    { label: 'Membership Levels', href: '/club/membership' },
-    { label: 'Join the Club', href: '/club/join' },
-    { label: 'Member Portal', href: '/club/members' },
-    { label: 'Visitor Info', href: '/club/visit' },
-    { label: 'Directions', href: '/contact#directions' },
-    { label: 'Property Map', href: '/club/map' },
-    { label: 'Tailgating & Pavilion', href: '/club/tailgating' },
-    { label: 'Club History', href: '/club/history' },
-    { label: 'FAQs', href: '/club/faqs' },
-  ],
-  Venue: [
-    { label: 'Weddings', href: '/venue/weddings' },
-    { label: 'Corporate Events', href: '/venue/corporate' },
-    { label: 'Private Parties', href: '/venue/private-events' },
-    { label: 'Pavilion Rental', href: '/venue/pavilion' },
-    { label: 'Grounds Rental', href: '/venue/grounds' },
-    { label: 'Photo Shoots', href: '/venue/photo-shoots' },
-    { label: 'Request Pricing', href: '/venue/pricing' },
-    { label: 'Gallery', href: '/venue/gallery' },
-  ],
-  Learn: [
-    { label: 'How to Watch Polo', href: '/learn/watch' },
-    { label: 'What Is Polo', href: '/learn/what-is-polo' },
-    { label: 'Beginner Info', href: '/learn/beginner' },
-    { label: 'Lessons', href: '/learn/lessons' },
-    { label: 'Getting Started', href: '/learn/getting-started' },
-  ],
-  Shop: [
-    { label: 'Apparel', href: '/shop/apparel' },
-    { label: 'Hats', href: '/shop/hats' },
-    { label: 'Gifts', href: '/shop/gifts' },
-  ],
-  Contact: [
-    { label: 'Inquiry', href: '/contact' },
-    { label: 'Sponsorships', href: '/contact#sponsorships' },
-    { label: 'Social Media', href: '/contact#social' },
-    { label: 'Book a Tour', href: '/contact#tour' },
-    { label: 'Instagram', href: `https://instagram.com/${INSTAGRAM_HANDLE}`, external: true },
-  ],
-}
 
 export async function Footer() {
   const year = new Date().getFullYear()
   const settings = await sanityFetch<SiteSettings | null>(SITE_SETTINGS_QUERY)
   const primary = resolvePrimaryLocation(settings)
   const polo = getPublicPoloCopy(settings)
+  const footerNavigation = getFooterNavigation(INSTAGRAM_HANDLE)
 
   return (
     <footer className="bg-polo-charcoal text-polo-cream/80">
@@ -97,15 +50,15 @@ export async function Footer() {
           </div>
 
           {/* Link columns */}
-          {Object.entries(FOOTER_LINKS).map(([heading, links]) => (
-            <div key={heading}>
+          {footerNavigation.map((section) => (
+            <div key={section.label}>
               <h3 className="font-body text-xs font-semibold uppercase tracking-widest text-polo-gold mb-4">
-                {heading}
+                {section.label}
               </h3>
               <ul className="space-y-2">
-                {links.map((link) => (
+                {section.links.map((link) => (
                   <li key={link.href}>
-                    {'external' in link && link.external ? (
+                    {link.external ? (
                       <a
                         href={link.href}
                         target="_blank"

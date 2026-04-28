@@ -39,8 +39,8 @@ const nextConfig: NextConfig = {
       out.push(
         { source: '/store', destination: '/shop', permanent: true },
         { source: '/store/:path*', destination: '/shop/:path*', permanent: true },
-        { source: '/shop', destination: `${shop}/store`, permanent: true },
-        { source: '/shop/:path*', destination: `${shop}/store/:path*`, permanent: true }
+        { source: '/shop', destination: shop, permanent: true },
+        { source: '/shop/:path*', destination: `${shop}/:path*`, permanent: true }
       )
     }
     return out

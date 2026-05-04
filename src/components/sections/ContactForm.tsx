@@ -40,7 +40,15 @@ export function ContactForm() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
       })
-      if (!res.ok) throw new Error()
+      const data = (await res.json().catch(() => null)) as { error?: unknown } | null
+      if (!res.ok) {
+        const apiErr =
+          data && typeof data.error === 'string' && data.error.length > 0 && data.error.length < 400
+            ? data.error
+            : null
+        toast.error(apiErr ?? 'Something went wrong — please try emailing us directly.')
+        return
+      }
       setSent(true)
       toast.success('Message sent! We\'ll be in touch soon.')
     } catch {

@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
     // Must use an address on a domain verified in Resend (apex vs subdomain matters).
     const from =
       process.env.RESEND_FROM?.trim() ||
-      'Fairfield Polo Club Website <noreply@fairfieldpolo.com>'
+      'Fairfield Polo Club Website <noreply@updates.fairfieldpolo.com>'
 
     if (!RESEND_API_KEY) {
       // Dev fallback — log to console
@@ -69,17 +69,22 @@ export async function POST(req: NextRequest) {
     const raw = await res.text()
     if (!res.ok) {
       console.error('[Resend error]', res.status, raw)
-      let clientMessage = 'Email delivery failed'
-      if (res.status === 401 || res.status === 403) {
-        clientMessage = 'Email service is not configured correctly.'
-      } else {
-        try {
-          const j = JSON.parse(raw) as { message?: string }
-          if (j.message && typeof j.message === 'string' && j.message.length > 0 && j.message.length < 400) {
-            clientMessage = j.message
-          }
-        } catch {
-          /* ignore */
+      let resendMessage: string | null = null
+      try {
+        const j = JSON.parse(raw) as { message?: string }
+        if (j.message && typeof j.message === 'string' && j.message.length > 0 && j.message.length < 400) {
+          resendMessage = j.message
+        }
+      } catch {
+        /* ignore */
+      }
+      let clientMessage = resendMessage ?? 'Email delivery failed'
+      if (!resendMessage) {
+        if (res.status === 401) {
+          clientMessage = 'Email service is not configured correctly.'
+        } else if (res.status === 403) {
+          clientMessage =
+            'Sending was blocked (often the From address domain is not verified in Resend). Set RESEND_FROM to an address on your verified domain.'
         }
       }
       return NextResponse.json({ error: clientMessage }, { status: 502 })

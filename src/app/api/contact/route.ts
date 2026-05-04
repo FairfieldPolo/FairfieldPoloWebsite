@@ -14,8 +14,12 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Invalid email address' }, { status: 400 })
     }
 
-    const RESEND_API_KEY   = process.env.RESEND_API_KEY
-    const CONTACT_EMAIL    = process.env.CONTACT_EMAIL ?? 'wichitapoloclub@gmail.com'
+    const RESEND_API_KEY = process.env.RESEND_API_KEY
+    const CONTACT_EMAIL  = process.env.CONTACT_EMAIL ?? 'wichitapoloclub@gmail.com'
+    // Must use an address on a domain verified in Resend (apex vs subdomain matters).
+    const from =
+      process.env.RESEND_FROM?.trim() ||
+      'Fairfield Polo Club Website <noreply@fairfieldpolo.com>'
 
     if (!RESEND_API_KEY) {
       // Dev fallback — log to console
@@ -30,7 +34,7 @@ export async function POST(req: NextRequest) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from:    'Fairfield Polo Club Website <noreply@fairfieldpolo.com>',
+        from,
         to:      [CONTACT_EMAIL],
         replyTo: email,
         subject: `[Contact] ${subject} — ${name}`,

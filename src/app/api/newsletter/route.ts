@@ -1,6 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
 import crypto from 'crypto'
 
+/** Datacenter segment after the last hyphen in the Mailchimp API key (e.g. us19, eu1). */
+function mailchimpServerPrefix(apiKey: string): string {
+  const fromEnv = process.env.MAILCHIMP_SERVER_PREFIX?.trim()
+  if (fromEnv) return fromEnv
+  const tail = apiKey.split('-').pop() ?? ''
+  if (/^[a-z]{2}\d+$/i.test(tail)) return tail.toLowerCase()
+  return 'us1'
+}
+
 export async function POST(req: NextRequest) {
   try {
     const { email } = await req.json()
@@ -14,9 +23,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Invalid email' }, { status: 400 })
     }
 
-    const API_KEY   = process.env.MAILCHIMP_API_KEY
-    const LIST_ID   = process.env.MAILCHIMP_AUDIENCE_ID
-    const SERVER    = process.env.MAILCHIMP_SERVER_PREFIX ?? 'us1'
+    const API_KEY = process.env.MAILCHIMP_API_KEY
+    const LIST_ID = process.env.MAILCHIMP_AUDIENCE_ID
 
     if (!API_KEY || !LIST_ID) {
       // Dev fallback
@@ -29,6 +37,8 @@ export async function POST(req: NextRequest) {
       .createHash('md5')
       .update(email.toLowerCase())
       .digest('hex')
+
+    const SERVER = mailchimpServerPrefix(API_KEY)
 
     // PUT upserts — handles existing subscribers gracefully
     const res = await fetch(
@@ -49,9 +59,14 @@ export async function POST(req: NextRequest) {
     )
 
     if (!res.ok) {
-      const err = await res.json()
-      console.error('[Mailchimp error]', err)
-      // If already subscribed, still return ok
+      const bodyText = await res.text()
+      let err: { title?: string; detail?: string } = {}
+      try {
+        err = JSON.parse(bodyText) as typeof err
+      } catch {
+        console.error('[Mailchimp error]', res.status, bodyText.slice(0, 500))
+      }
+      console.error('[Mailchimp error]', res.status, err.title ?? err.detail ?? bodyText.slice(0, 200))
       if (err.title === 'Member Exists') {
         return NextResponse.json({ ok: true })
       }

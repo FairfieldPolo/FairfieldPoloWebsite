@@ -1,11 +1,26 @@
 import Link from 'next/link'
 import { EventCard } from '@/components/ui/EventCard'
+import { WeatherCancellationsNote } from '@/components/ui/WeatherCancellationsNote'
+import type { PublicPoloCopy } from '@/lib/site/publicPolo'
 import type { PoloEvent } from '@/types'
 
-export function EventsStrip({ events }: { events: PoloEvent[] }) {
+type Props = {
+  events: PoloEvent[]
+  polo: PublicPoloCopy
+  /** Full one-line address for the green strip (e.g. maps query). */
+  fullAddress: string
+  facebookUrl?: string | null
+}
+
+export function EventsStrip({ events, polo, fullAddress, facebookUrl }: Props) {
   return (
     <section className="section-cream section-pad">
       <div className="container-polo">
+        <WeatherCancellationsNote
+          text={polo.weatherNote}
+          facebookUrl={facebookUrl}
+          className="mb-10"
+        />
         {/* Header */}
         <div className="flex items-end justify-between mb-10">
           <div>
@@ -14,7 +29,7 @@ export function EventsStrip({ events }: { events: PoloEvent[] }) {
               Upcoming Events
             </h2>
             <p className="font-body text-gray-500 mt-2 max-w-lg">
-              Open to the public every Sunday at 1&nbsp;pm. Special events throughout the season.
+              {polo.eventsStripSubtitle}
             </p>
           </div>
           <Link
@@ -49,7 +64,7 @@ export function EventsStrip({ events }: { events: PoloEvent[] }) {
           <div className="text-center py-16 bg-white rounded-sm border border-polo-cream-dark">
             <div className="font-display text-3xl text-polo-green/20 mb-3">No upcoming events</div>
             <p className="font-body text-gray-500">
-              Check back soon — we play every Sunday at 1&nbsp;pm.
+              {polo.noEvents}
             </p>
           </div>
         )}
@@ -68,10 +83,10 @@ export function EventsStrip({ events }: { events: PoloEvent[] }) {
               Every week
             </div>
             <h3 className="font-display text-xl md:text-2xl font-bold text-polo-cream">
-              Sundays at 1:00 PM — Free Admission
+              {polo.timeCallout}
             </h3>
             <p className="font-body text-polo-cream/70 text-sm mt-1">
-              9420 South Broadway Ave, Haysville, Kansas · Gates open at noon
+              {[fullAddress.trim(), polo.gatesStat].filter(Boolean).join(' · ')}
             </p>
           </div>
           <div className="flex gap-3 flex-shrink-0">

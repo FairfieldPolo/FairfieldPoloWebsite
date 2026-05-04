@@ -10,6 +10,7 @@ import {
   openInGoogleMapsHref,
   resolvePrimaryLocation,
 } from '@/lib/site/location'
+import { getPublicPoloCopy } from '@/lib/site/publicPolo'
 
 export const metadata: Metadata = {
   title: 'Contact & Directions',
@@ -19,6 +20,7 @@ export const metadata: Metadata = {
 export default async function ContactPage() {
   const settings = await sanityFetch<SiteSettings | null>(SITE_SETTINGS_QUERY)
   const primary = resolvePrimaryLocation(settings)
+  const polo = getPublicPoloCopy(settings)
   const mapEmbedSrc = googleMapsEmbedForResolved(primary)
   const mapLinkHref = openInGoogleMapsHref(primary, settings)
 
@@ -108,8 +110,8 @@ export default async function ContactPage() {
               <div className="bg-polo-green rounded-sm p-5">
                 <h3 className="font-display text-polo-gold font-semibold mb-2">Game day</h3>
                 <ul className="space-y-2 font-body text-sm text-polo-cream/80">
-                  <li className="flex gap-2"><span className="text-polo-gold">·</span> Sundays at 1:00 PM</li>
-                  <li className="flex gap-2"><span className="text-polo-gold">·</span> Gates open at noon</li>
+                  <li className="flex gap-2"><span className="text-polo-gold">·</span> {polo.timeContact}</li>
+                  <li className="flex gap-2"><span className="text-polo-gold">·</span> {polo.gatesStat}</li>
                   <li className="flex gap-2"><span className="text-polo-gold">·</span> Free admission</li>
                   <li className="flex gap-2"><span className="text-polo-gold">·</span> Bring lawn chairs or blankets</li>
                   <li className="flex gap-2"><span className="text-polo-gold">·</span> Dogs welcome on leash</li>

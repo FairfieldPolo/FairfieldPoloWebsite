@@ -1,5 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { sanityFetch } from '@/lib/sanity'
+import { membersPageAbsoluteUrl } from '@/lib/site/members-url'
+import { shopPageAbsoluteUrl } from '@/lib/site/shop-url'
 import type { PoloEvent, EducationArticle } from '@/types'
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://fairfieldpolo.com'
@@ -17,11 +19,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: BASE_URL,           lastModified: new Date(), changeFrequency: 'daily',   priority: 1.0 },
     { url: `${BASE_URL}/events`,   lastModified: new Date(), changeFrequency: 'daily',   priority: 0.9 },
     { url: `${BASE_URL}/schedule`, lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.8 },
-    { url: `${BASE_URL}/store`,          lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.7 },
-    { url: `${BASE_URL}/store/cart`,     lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.4 },
-    { url: `${BASE_URL}/store/checkout`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.3 },
-    { url: `${BASE_URL}/learn`,    lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
-    { url: `${BASE_URL}/about`,    lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
+    { url: shopPageAbsoluteUrl('/store'),          lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.7 },
+    { url: shopPageAbsoluteUrl('/store/cart'),     lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.4 },
+    { url: shopPageAbsoluteUrl('/store/checkout'), lastModified: new Date(), changeFrequency: 'monthly', priority: 0.3 },
+    { url: `${BASE_URL}/learn`,      lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${BASE_URL}/learn/rules`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.65 },
+    { url: `${BASE_URL}/learn/equipment`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.65 },
+    { url: `${BASE_URL}/learn/glossary`,  lastModified: new Date(), changeFrequency: 'monthly', priority: 0.65 },
+    { url: `${BASE_URL}/learn/how-to-watch`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.65 },
+    { url: `${BASE_URL}/about`,     lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${BASE_URL}/membership`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
+    { url: membersPageAbsoluteUrl(), lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
     { url: `${BASE_URL}/contact`,  lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
   ]
 

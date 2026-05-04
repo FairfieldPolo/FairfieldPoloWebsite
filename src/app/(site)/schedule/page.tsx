@@ -1,27 +1,37 @@
 import type { Metadata } from 'next'
 import { sanityFetch } from '@/lib/sanity'
-import { ALL_UPCOMING_EVENTS_QUERY } from '@/lib/queries'
-import type { PoloEvent } from '@/types'
+import { ALL_UPCOMING_EVENTS_QUERY, SITE_SETTINGS_QUERY } from '@/lib/queries'
+import { getPublicPoloCopy } from '@/lib/site/publicPolo'
+import type { PoloEvent, SiteSettings } from '@/types'
 import { PageHero } from '@/components/ui/PageHero'
 import { EventCard } from '@/components/ui/EventCard'
 import { NewsletterSection } from '@/components/sections/NewsletterSection'
-import { formatEventDate, formatEventTime, EVENT_TYPE_LABELS, EVENT_TYPE_COLORS } from '@/lib/utils'
+import { formatEventTime, EVENT_TYPE_LABELS, EVENT_TYPE_COLORS } from '@/lib/utils'
 
 export const revalidate = 60
 
-export const metadata: Metadata = {
-  title: '2025 Season Schedule',
-  description: 'Full 2025 polo season schedule for Fairfield Polo Club in Haysville, Kansas. Matches every Sunday at 1pm plus special events.',
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await sanityFetch<SiteSettings | null>(SITE_SETTINGS_QUERY)
+  const polo = getPublicPoloCopy(settings)
+  return {
+    title: '2025 Season Schedule',
+    description:
+      'Full 2025 polo season schedule for Fairfield Polo Club in Haysville, Kansas. ' + polo.seoSchedule,
+  }
 }
 
 export default async function SchedulePage() {
-  const events = await sanityFetch<PoloEvent[]>(ALL_UPCOMING_EVENTS_QUERY)
+  const [events, settings] = await Promise.all([
+    sanityFetch<PoloEvent[]>(ALL_UPCOMING_EVENTS_QUERY),
+    sanityFetch<SiteSettings | null>(SITE_SETTINGS_QUERY),
+  ])
+  const polo = getPublicPoloCopy(settings)
 
   return (
     <>
       <PageHero
         title="2025 Season Schedule"
-        subtitle="Every match, tournament, and special event this season. Gates open at noon for Sunday games."
+        subtitle={polo.schedulePageHeroSubtitle}
         eyebrow="Season calendar"
       />
 
@@ -112,7 +122,7 @@ export default async function SchedulePage() {
           ) : (
             <div className="text-center py-20">
               <p className="font-display text-2xl text-polo-green/30">Season schedule coming soon</p>
-              <p className="font-body text-gray-400 mt-2">We play every Sunday at 1pm during the season.</p>
+              <p className="font-body text-gray-400 mt-2">{polo.emptySchedule}</p>
             </div>
           )}
 
@@ -121,8 +131,7 @@ export default async function SchedulePage() {
             <div className="card p-6">
               <h3 className="font-display text-lg text-polo-green font-bold mb-3">Weekly matches</h3>
               <p className="font-body text-sm text-gray-600 leading-relaxed">
-                Open matches are held every Sunday at 1:00 PM throughout the spring and summer season.
-                Gates open at noon. Free admission — no tickets required. Bring chairs, blankets, and the family.
+                {polo.scheduleCard}
               </p>
             </div>
             <div className="card p-6">

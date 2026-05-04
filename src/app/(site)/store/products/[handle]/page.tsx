@@ -7,6 +7,7 @@ import { StoreNotConfigured } from '@/components/commerce/StoreNotConfigured'
 import { PageHero } from '@/components/ui/PageHero'
 import { getProductByHandle, getStoreCurrencyCode } from '@/lib/commerce/products'
 import { isMedusaConfigured } from '@/lib/medusa/server'
+import { shopUrl } from '@/lib/site/shop-url'
 
 export const dynamic = 'force-dynamic'
 
@@ -49,7 +50,7 @@ export default async function StoreProductPage({ params }: Props) {
       <div className="bg-polo-cream border-b border-polo-cream-dark">
         <div className="container-polo py-4">
           <Link
-            href="/store"
+            href={shopUrl('/store')}
             className="font-body text-sm text-polo-green hover:underline"
           >
             ← Back to store

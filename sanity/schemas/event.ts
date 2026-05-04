@@ -40,6 +40,7 @@ export const eventSchema = defineType({
           { title: 'Tournament',          value: 'tournament' },
           { title: 'Charity event',       value: 'charity' },
           { title: 'Private event',       value: 'private' },
+          { title: 'Social',              value: 'social' },
           { title: 'Practice',            value: 'practice' },
           { title: 'Lesson',              value: 'lesson' },
         ],

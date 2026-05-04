@@ -123,6 +123,16 @@ export function resolvePrimaryLocation(
   }
 }
 
+/**
+ * One-line address for on-page copy (e.g. home events strip). Uses `mapsQuery` when set;
+ * otherwise `line1` and `line2` so the UI never depends on a single field in isolation.
+ */
+export function displayAddressFromResolved(loc: ResolvedClubLocation): string {
+  const q = loc.mapsQuery?.trim()
+  if (q) return q
+  return [loc.line1, loc.line2].filter(Boolean).join(', ').trim() || loc.line1
+}
+
 /** “Open in Google Maps” link: optional Sanity override, else search URL from `mapsQuery`. */
 export function openInGoogleMapsHref(
   resolved: ResolvedClubLocation,

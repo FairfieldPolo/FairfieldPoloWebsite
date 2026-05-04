@@ -3,6 +3,7 @@ import Link from 'next/link'
 
 import { CheckoutPageClient } from '@/components/commerce/CheckoutPageClient'
 import { PageHero } from '@/components/ui/PageHero'
+import { shopUrl } from '@/lib/site/shop-url'
 
 export const metadata: Metadata = {
   title: 'Checkout',
@@ -21,7 +22,7 @@ export default function CheckoutPage() {
         <div className="container-polo max-w-2xl">
           <div className="mb-6">
             <Link
-              href="/store/cart"
+              href={shopUrl('/store/cart')}
               className="font-body text-sm text-polo-green hover:underline"
             >
               ← Back to cart

@@ -37,6 +37,7 @@ export const EVENT_TYPE_LABELS: Record<EventType, string> = {
   charity:    'Charity Event',
   tournament: 'Tournament',
   private:    'Private Event',
+  social:     'Social',
   practice:   'Practice',
   lesson:     'Lesson',
 }
@@ -46,6 +47,7 @@ export const EVENT_TYPE_COLORS: Record<EventType, string> = {
   charity:    'bg-polo-gold text-polo-charcoal',
   tournament: 'bg-polo-brown text-polo-cream',
   private:    'bg-gray-500 text-white',
+  social:     'bg-indigo-800 text-polo-cream',
   practice:   'bg-polo-green-mid text-polo-cream',
   lesson:     'bg-sky-800 text-polo-cream',
 }

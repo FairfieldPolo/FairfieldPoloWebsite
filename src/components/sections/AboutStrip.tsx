@@ -1,6 +1,9 @@
 import Link from 'next/link'
+import type { PublicPoloCopy } from '@/lib/site/publicPolo'
 
-export function AboutStrip() {
+type Props = { polo: PublicPoloCopy }
+
+export function AboutStrip({ polo }: Props) {
   return (
     <section className="section-green section-pad">
       <div className="container-polo">
@@ -27,7 +30,7 @@ export function AboutStrip() {
             {/* Three values */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
               {[
-                { title: 'Open to all', body: 'Public welcome every Sunday. Bring the whole family.' },
+                { title: 'Open to all', body: polo.aboutOpenToAllBody },
                 { title: 'USPA member', body: 'Sanctioned tournaments and competitive play.' },
                 { title: 'Get involved', body: 'Lessons, memberships, and volunteer opportunities.' },
               ].map(({ title, body }) => (
@@ -54,7 +57,7 @@ export function AboutStrip() {
               { number: '1931',   label: 'Year founded',          sub: 'One of the oldest USPA clubs' },
               { number: '90+',    label: 'Years of continuous play', sub: 'Through every Kansas season' },
               { number: '6',      label: 'Chukkers per match',    sub: '7 minutes of non-stop action' },
-              { number: 'Sun 1pm',label: 'Weekly game time',      sub: 'Gates open at noon' },
+              { number: polo.statTime, label: 'Weekly game time', sub: polo.gatesStat },
             ].map(({ number, label, sub }) => (
               <div
                 key={label}

@@ -3,11 +3,14 @@ import { urlFor } from '@/lib/sanity'
 import { SPONSOR_TIER_LABELS } from '@/lib/utils'
 import type { Sponsor, SponsorTier } from '@/types'
 
-const TIER_SIZES: Record<SponsorTier, { container: string; img: number }> = {
-  title:      { container: 'h-20', img: 180 },
-  gold:       { container: 'h-14', img: 140 },
-  silver:     { container: 'h-12', img: 120 },
-  supporting: { container: 'h-10', img: 100 },
+const TIER_SIZES: Record<
+  SponsorTier,
+  { container: string; img: number; urlHeight: number }
+> = {
+  title:      { container: 'h-20', img: 180, urlHeight: 80 },
+  gold:       { container: 'h-14', img: 140, urlHeight: 80 },
+  silver:     { container: 'h-12', img: 120, urlHeight: 80 },
+  supporting: { container: 'h-[12.5rem]', img: 500, urlHeight: 400 },
 }
 
 export function SponsorsSection({ sponsors }: { sponsors: Sponsor[] }) {
@@ -38,7 +41,13 @@ export function SponsorsSection({ sponsors }: { sponsors: Sponsor[] }) {
                 <div className="divider-text mb-6 font-body text-xs uppercase tracking-widest">
                   {SPONSOR_TIER_LABELS[tier]}
                 </div>
-                <div className="flex flex-wrap items-center justify-center gap-8">
+                <div
+                  className={
+                    tier === 'supporting'
+                      ? 'flex flex-wrap items-center justify-center gap-10 sm:gap-12'
+                      : 'flex flex-wrap items-center justify-center gap-8'
+                  }
+                >
                   {tierSponsors.map(sponsor => (
                     <a
                       key={sponsor._id}
@@ -46,7 +55,7 @@ export function SponsorsSection({ sponsors }: { sponsors: Sponsor[] }) {
                       target={sponsor.website ? '_blank' : undefined}
                       rel="noopener noreferrer"
                       className={`
-                        ${sizes.container} flex items-center
+                        ${sizes.container} flex items-center max-w-[min(100%,32rem)]
                         opacity-70 hover:opacity-100 transition-opacity duration-200
                         grayscale hover:grayscale-0 transition-all
                       `}
@@ -54,10 +63,12 @@ export function SponsorsSection({ sponsors }: { sponsors: Sponsor[] }) {
                     >
                       {sponsor.logo ? (
                         <Image
-                          src={urlFor(sponsor.logo).height(80).url()}
+                          src={urlFor(sponsor.logo)
+                            .height(sizes.urlHeight)
+                            .url()}
                           alt={sponsor.name}
                           width={sizes.img}
-                          height={80}
+                          height={sizes.urlHeight}
                           className="object-contain h-full w-auto"
                         />
                       ) : (

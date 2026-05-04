@@ -4,8 +4,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { PortableText } from '@portabletext/react'
 import { sanityFetch, urlFor } from '@/lib/sanity'
-import { EVENT_BY_SLUG_QUERY } from '@/lib/queries'
-import type { PoloEvent } from '@/types'
+import { EVENT_BY_SLUG_QUERY, SITE_SETTINGS_QUERY } from '@/lib/queries'
+import { getPublicPoloCopy } from '@/lib/site/publicPolo'
+import type { PoloEvent, SiteSettings } from '@/types'
+import { WeatherCancellationsNote } from '@/components/ui/WeatherCancellationsNote'
 import {
   formatEventDate, formatEventTime,
   EVENT_TYPE_LABELS, EVENT_TYPE_COLORS,
@@ -33,9 +35,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function EventPage({ params }: Props) {
   const { slug } = await params
-  const event = await sanityFetch<PoloEvent | null>(EVENT_BY_SLUG_QUERY, { slug })
+  const [event, settings] = await Promise.all([
+    sanityFetch<PoloEvent | null>(EVENT_BY_SLUG_QUERY, { slug }),
+    sanityFetch<SiteSettings | null>(SITE_SETTINGS_QUERY),
+  ])
   if (!event) notFound()
 
+  const polo = getPublicPoloCopy(settings)
   const typeLabel = EVENT_TYPE_LABELS[event.eventType]
   const typeColor = EVENT_TYPE_COLORS[event.eventType]
   const where = eventWhereDisplay(event)
@@ -65,6 +71,11 @@ export default async function EventPage({ params }: Props) {
       </div>
 
       <div className="container-polo py-10">
+        <WeatherCancellationsNote
+          className="mb-8"
+          text={polo.weatherNote}
+          facebookUrl={settings?.facebookUrl}
+        />
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
 
           {/* Main content */}

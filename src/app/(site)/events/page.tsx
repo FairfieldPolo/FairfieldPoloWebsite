@@ -1,24 +1,38 @@
 import type { Metadata } from 'next'
 import { sanityFetch } from '@/lib/sanity'
-import { ALL_UPCOMING_EVENTS_QUERY, PAST_EVENTS_QUERY } from '@/lib/queries'
-import type { PoloEvent } from '@/types'
+import {
+  ALL_UPCOMING_EVENTS_QUERY,
+  PAST_EVENTS_QUERY,
+  SITE_SETTINGS_QUERY,
+} from '@/lib/queries'
+import { getPublicPoloCopy } from '@/lib/site/publicPolo'
+import type { PoloEvent, SiteSettings } from '@/types'
 import { EventCard } from '@/components/ui/EventCard'
 import { PageHero } from '@/components/ui/PageHero'
+import { WeatherCancellationsNote } from '@/components/ui/WeatherCancellationsNote'
 import { NewsletterSection } from '@/components/sections/NewsletterSection'
 import { formatMonthYear } from '@/lib/utils'
 
 export const revalidate = 60
 
-export const metadata: Metadata = {
-  title: 'Events & Schedule',
-  description: 'Upcoming polo matches, tournaments, and charity events at Fairfield Polo Club in Haysville, Kansas. Open to the public every Sunday at 1pm.',
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await sanityFetch<SiteSettings | null>(SITE_SETTINGS_QUERY)
+  const polo = getPublicPoloCopy(settings)
+  return {
+    title: 'Events & Schedule',
+    description:
+      'Upcoming polo matches, tournaments, and charity events at Fairfield Polo Club in Haysville, Kansas. ' +
+      polo.seoSchedule,
+  }
 }
 
 export default async function EventsPage() {
-  const [upcoming, past] = await Promise.all([
+  const [upcoming, past, settings] = await Promise.all([
     sanityFetch<PoloEvent[]>(ALL_UPCOMING_EVENTS_QUERY),
     sanityFetch<PoloEvent[]>(PAST_EVENTS_QUERY),
+    sanityFetch<SiteSettings | null>(SITE_SETTINGS_QUERY),
   ])
+  const polo = getPublicPoloCopy(settings)
 
   // Group upcoming by month
   const byMonth = upcoming.reduce<Record<string, PoloEvent[]>>((acc, event) => {
@@ -32,12 +46,17 @@ export default async function EventsPage() {
     <>
       <PageHero
         title="Events & Schedule"
-        subtitle="Open to the public every Sunday at 1pm. Special events throughout the season."
+        subtitle={polo.pageHeroEventsSubtitle}
         eyebrow="2025 Season"
       />
 
       <section className="section-cream section-pad">
         <div className="container-polo">
+          <WeatherCancellationsNote
+            className="mb-10"
+            text={polo.weatherNote}
+            facebookUrl={settings?.facebookUrl}
+          />
 
           {Object.keys(byMonth).length > 0 ? (
             <div className="space-y-14">
@@ -59,7 +78,7 @@ export default async function EventsPage() {
             <div className="text-center py-20">
               <p className="font-display text-2xl text-polo-green/30">No upcoming events scheduled</p>
               <p className="font-body text-gray-400 mt-2">
-                We play every Sunday at 1pm — check back soon for the season schedule.
+                {polo.emptyEvents}
               </p>
             </div>
           )}

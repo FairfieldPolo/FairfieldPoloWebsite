@@ -4,6 +4,7 @@ import type { HttpTypes } from '@medusajs/types'
 
 import { resolveMedusaAssetUrl } from '@/lib/commerce/assets'
 import { formatCartMoney } from '@/lib/commerce/medusa-money'
+import { shopUrl } from '@/lib/site/shop-url'
 
 type Props = {
   product: HttpTypes.StoreProduct
@@ -19,7 +20,7 @@ export function ProductCard({ product, currencyCode }: Props) {
 
   return (
     <article className="card flex flex-col overflow-hidden h-full">
-      <Link href={`/store/products/${product.handle}`} className="relative aspect-square bg-polo-cream-dark block">
+      <Link href={shopUrl(`/store/products/${product.handle}`)} className="relative aspect-square bg-polo-cream-dark block">
         {img ? (
           <Image
             src={img}
@@ -37,7 +38,7 @@ export function ProductCard({ product, currencyCode }: Props) {
       <div className="p-5 flex flex-col flex-1">
         <h2 className="font-display text-xl text-polo-green leading-snug mb-2">
           <Link
-            href={`/store/products/${product.handle}`}
+            href={shopUrl(`/store/products/${product.handle}`)}
             className="hover:text-polo-green-mid transition-colors"
           >
             {product.title}
@@ -52,7 +53,7 @@ export function ProductCard({ product, currencyCode }: Props) {
         )}
         <div className="mt-auto">
           <Link
-            href={`/store/products/${product.handle}`}
+            href={shopUrl(`/store/products/${product.handle}`)}
             className="btn-primary w-full justify-center text-sm"
           >
             View product

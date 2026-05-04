@@ -48,6 +48,46 @@ export default async function LearnPage() {
                   <div className="font-display text-2xl text-polo-gold mb-3">{meta.icon}</div>
                   <h2 className="heading-card text-polo-green mb-2">{meta.label}</h2>
                   <p className="font-body text-sm text-gray-500 mb-4 flex-1">{meta.desc}</p>
+                  {cat === 'rules' && (
+                    <p className="mb-3">
+                      <Link
+                        href="/learn/rules"
+                        className="font-body text-sm font-medium text-polo-green hover:text-polo-green-light underline-offset-2 hover:underline"
+                      >
+                        → Quick guide for first-time spectators
+                      </Link>
+                    </p>
+                  )}
+                  {cat === 'equipment' && (
+                    <p className="mb-3">
+                      <Link
+                        href="/learn/equipment"
+                        className="font-body text-sm font-medium text-polo-green hover:text-polo-green-light underline-offset-2 hover:underline"
+                      >
+                        → Mallets, tack, ponies, and what players wear
+                      </Link>
+                    </p>
+                  )}
+                  {cat === 'glossary' && (
+                    <p className="mb-3">
+                      <Link
+                        href="/learn/glossary"
+                        className="font-body text-sm font-medium text-polo-green hover:text-polo-green-light underline-offset-2 hover:underline"
+                      >
+                        → Chukker, line of the ball, positions, and more
+                      </Link>
+                    </p>
+                  )}
+                  {cat === 'howtowatch' && (
+                    <p className="mb-3">
+                      <Link
+                        href="/learn/how-to-watch"
+                        className="font-body text-sm font-medium text-polo-green hover:text-polo-green-light underline-offset-2 hover:underline"
+                      >
+                        → What to expect as a first-time fan
+                      </Link>
+                    </p>
+                  )}
                   {catArticles.length > 0 ? (
                     <ul className="space-y-1 mb-4">
                       {catArticles.slice(0, 3).map(a => (
@@ -61,7 +101,10 @@ export default async function LearnPage() {
                         </li>
                       ))}
                     </ul>
-                  ) : (
+                  ) : cat === 'rules' ||
+                    cat === 'equipment' ||
+                    cat === 'glossary' ||
+                    cat === 'howtowatch' ? null : (
                     <p className="font-body text-xs text-gray-400 italic mb-4">Coming soon</p>
                   )}
                 </div>

@@ -1,24 +1,39 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
-const NAV_LINKS = [
-  { label: 'Events',   href: '/events' },
-  { label: 'Schedule', href: '/schedule' },
-  { label: 'Store',    href: '/store' },
-  { label: 'Cart',     href: '/store/cart' },
-  { label: 'Learn',    href: '/learn' },
-  { label: 'About',    href: '/about' },
-  { label: 'Contact',  href: '/contact' },
-]
+import { membersUrl } from '@/lib/site/members-url'
+import { shopUrl } from '@/lib/site/shop-url'
+
+type NavLink = { label: string; href: string }
+
+/** Built inside the client component so `shopUrl` / `membersUrl` read env at render, not at module init. */
+function buildNavLinks(): NavLink[] {
+  return [
+    { label: 'Events',     href: '/events' },
+    { label: 'Schedule',  href: '/schedule' },
+    { label: 'Shop',      href: shopUrl('/store') },
+    { label: 'Learn',     href: '/learn' },
+    { label: 'About',     href: '/about' },
+    { label: 'Membership', href: '/membership' },
+    { label: 'Members',   href: membersUrl() },
+    { label: 'Contact',   href: '/contact' },
+  ]
+}
+
+function navItemActive(pathname: string, href: string) {
+  if (href.startsWith('http://') || href.startsWith('https://')) return false
+  return pathname === href || pathname.startsWith(`${href}/`)
+}
 
 export function Navbar() {
   const [open, setOpen]         = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const pathname = usePathname()
   const isHome = pathname === '/'
+  const navLinks = useMemo(() => buildNavLinks(), [])
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
@@ -81,8 +96,8 @@ export function Navbar() {
 
           {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-1" aria-label="Main navigation">
-            {NAV_LINKS.map((link) => {
-              const active = pathname.startsWith(link.href)
+            {navLinks.map((link) => {
+              const active = navItemActive(pathname, link.href)
               return (
                 <Link
                   key={link.href}
@@ -105,12 +120,6 @@ export function Navbar() {
                 </Link>
               )
             })}
-            <Link
-              href="/events"
-              className="ml-4 btn-gold text-sm py-2 px-5"
-            >
-              Watch Live
-            </Link>
           </nav>
 
           {/* Mobile menu button */}
@@ -142,8 +151,8 @@ export function Navbar() {
       {open && (
         <div className="md:hidden bg-polo-green border-t border-polo-green-mid pb-4">
           <nav className="container-polo flex flex-col pt-2" aria-label="Mobile navigation">
-            {NAV_LINKS.map((link) => {
-              const active = pathname.startsWith(link.href)
+            {navLinks.map((link) => {
+              const active = navItemActive(pathname, link.href)
               return (
                 <Link
                   key={link.href}
@@ -158,9 +167,6 @@ export function Navbar() {
                 </Link>
               )
             })}
-            <Link href="/events" className="btn-gold mt-4 w-full text-center">
-              Watch Live
-            </Link>
           </nav>
         </div>
       )}

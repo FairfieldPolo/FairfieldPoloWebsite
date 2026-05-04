@@ -1,5 +1,9 @@
 name: CI
 
+# Static generation imports `@/lib/sanity` (e.g. via Footer). Set repository Variables
+# NEXT_PUBLIC_SANITY_PROJECT_ID and NEXT_PUBLIC_SANITY_DATASET (same as Vercel / .env.local).
+# Optional: Secrets → SANITY_API_READ_TOKEN if the dataset requires a token.
+
 on:
   pull_request:
   push:
@@ -8,13 +12,24 @@ on:
 jobs:
   test-build:
     runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ vars.NEXT_PUBLIC_SANITY_PROJECT_ID }}
+      NEXT_PUBLIC_SANITY_DATASET: ${{ vars.NEXT_PUBLIC_SANITY_DATASET }}
+      SANITY_API_READ_TOKEN: ${{ secrets.SANITY_API_READ_TOKEN }}
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
+
+      - name: Verify Sanity configuration
+        run: |
+          if [ -z "${NEXT_PUBLIC_SANITY_PROJECT_ID:-}" ] || [ -z "${NEXT_PUBLIC_SANITY_DATASET:-}" ]; then
+            echo "::error::Set GitHub Actions Variables NEXT_PUBLIC_SANITY_PROJECT_ID and NEXT_PUBLIC_SANITY_DATASET: Repository → Settings → Secrets and variables → Actions → Variables."
+            exit 1
+          fi
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 24
           cache: npm
@@ -26,7 +41,7 @@ jobs:
         run: npm run lint --if-present
 
       - name: Typecheck
-        run: npm run typecheck --if-present
+        run: npm run type-check --if-present
 
       - name: Test
         run: npm test --if-present
@@ -36,7 +51,7 @@ jobs:
 
       - name: Upload build log
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: build-log
           path: build.log

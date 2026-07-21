@@ -10,7 +10,7 @@ function escapeHtml(s: string): string {
 
 export async function POST(req: NextRequest) {
   try {
-    const { name, email, subject, message } = await req.json()
+    const { name, email, subject, message, turnstileToken } = await req.json()
 
     if (!name || !email || !message) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
@@ -20,6 +20,31 @@ export async function POST(req: NextRequest) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(email)) {
       return NextResponse.json({ error: 'Invalid email address' }, { status: 400 })
+    }
+
+    const TURNSTILE_SECRET = process.env.TURNSTILE_SECRET?.trim()
+    if (TURNSTILE_SECRET) {
+      const token = typeof turnstileToken === 'string' ? turnstileToken.trim() : ''
+      if (!token) {
+        return NextResponse.json({ error: 'Verification required' }, { status: 403 })
+      }
+      const remoteip =
+        req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+        req.headers.get('x-real-ip') ||
+        undefined
+      const verifyRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          secret: TURNSTILE_SECRET,
+          response: token,
+          ...(remoteip ? { remoteip } : {}),
+        }),
+      })
+      const verify = (await verifyRes.json()) as { success?: boolean }
+      if (!verify.success) {
+        return NextResponse.json({ error: 'Verification failed' }, { status: 403 })
+      }
     }
 
     const RESEND_API_KEY = process.env.RESEND_API_KEY?.trim()

@@ -71,6 +71,20 @@ cd fairfield-polo
 npm install
 ```
 
+### Project doctor
+
+Before deploy, DNS, or service credential work, verify local context:
+
+```bash
+cp .env.infrastructure.example .env.infrastructure.local
+# fill PROJECT_GITHUB_ACCOUNT and paths
+make doctor
+```
+
+`make doctor` checks GitHub origin, Node tooling, `.env.local` service vars
+(Sanity, Medusa, Resend, Mailchimp, Behold), Cloudflare DNS for
+`fairfieldpolo.com`, live HTTPS, and that secrets are not tracked.
+
 ### 2. Set up environment variables
 
 ```bash

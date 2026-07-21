@@ -1,0 +1,39 @@
+---
+description: Mandatory project context checks before service / deploy operations
+alwaysApply: true
+---
+
+# Project Context Verification
+
+Fairfield Polo Club website: Next.js storefront on Vercel with Sanity CMS,
+Medusa commerce, Resend, Mailchimp, and Behold Instagram.
+
+Before any GitHub admin, Vercel deploy/env, Cloudflare DNS, Sanity project,
+Medusa production, secret, or production data operation:
+
+1. Run `make doctor` from `~/projects/FairfieldPolo`.
+2. Stop if any doctor check fails.
+3. Report all warnings.
+4. State the intended target and operation.
+5. Classify the operation as read-only, create, modify, or delete.
+6. Wait for explicit approval before any create, modify, or delete action.
+
+## Fixed project boundaries
+
+- GitHub account: set in `.env.infrastructure.local` (`PROJECT_GITHUB_ACCOUNT`)
+- GitHub org/repo: `FairfieldPolo/FairfieldPoloWebsite`
+- Workspace: `~/projects/FairfieldPolo`
+- Public site: `https://fairfieldpolo.com`
+- Deploy target: Vercel
+- DNS: Cloudflare zone `fairfieldpolo.com` (apex/www → Vercel; typically DNS-only)
+- CMS: Sanity (`NEXT_PUBLIC_SANITY_PROJECT_ID` / dataset)
+- Commerce: Medusa Store API (separate backend; not in this repo)
+- Email: Resend (contact) + Mailchimp (newsletter)
+- Instagram: Behold.so widget
+
+This is **not** a Darrah Oil or PostRock Ag workspace. Do not use those Azure
+profiles, Unraid aliases, or their Cloudflare zones (`darrahoil.com` /
+`postrockag.com`) here.
+
+If `make doctor` fails, do not attempt to switch accounts or repair the
+context automatically.

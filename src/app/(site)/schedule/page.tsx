@@ -14,9 +14,9 @@ export async function generateMetadata(): Promise<Metadata> {
   const settings = await sanityFetch<SiteSettings | null>(SITE_SETTINGS_QUERY)
   const polo = getPublicPoloCopy(settings)
   return {
-    title: '2025 Season Schedule',
+    title: '2026 Season Schedule',
     description:
-      'Full 2025 polo season schedule for Fairfield Polo Club in Haysville, Kansas. ' + polo.seoSchedule,
+      'Full 2026 polo season schedule for Fairfield Polo Club in Haysville, Kansas. ' + polo.seoSchedule,
   }
 }
 
@@ -30,7 +30,7 @@ export default async function SchedulePage() {
   return (
     <>
       <PageHero
-        title="2025 Season Schedule"
+        title="2026 Season Schedule"
         subtitle={polo.schedulePageHeroSubtitle}
         eyebrow="Season calendar"
       />
